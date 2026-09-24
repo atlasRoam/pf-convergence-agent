@@ -1,0 +1,52 @@
+{
+	"extends": "./tsconfig.base.json",
+	"compilerOptions": {
+		"noEmit": true,
+		"module": "NodeNext",
+		"moduleResolution": "NodeNext",
+		"paths": {
+			"*": ["./*"],
+			"@pfsaa/chord": ["./packages/chord/src/index.ts"],
+			"@pfsaa/chord/bundler": ["./packages/chord/src/bundler.ts"],
+			"@pfsaa/chord/context": ["./packages/chord/src/context/index.ts"],
+			"@pfsaa/chord/delta": ["./packages/chord/src/delta/index.ts"],
+			"@pfsaa/chord/node": ["./packages/chord/src/node.ts"],
+			"@pfsaa/telemetry": ["./packages/telemetry/src/index.ts"],
+			"@pfsaa/telemetry/testing": ["./packages/telemetry/src/testing/index.ts"],
+			"@pfsaa/ai": ["./packages/ai/src/index.ts"],
+			"@pfsaa/ai/oauth": ["./packages/ai/src/oauth.ts"],
+			"@pfsaa/ai/*": ["./packages/ai/src/*.ts", "./packages/ai/src/providers/*.ts"],
+			"@pfsaa/ai/dist/*": ["./packages/ai/src/*"],
+			"@pfsaa/agent-core": ["./packages/agent-core/src/index.ts"],
+			"@pfsaa/agent-core/harness/session/testing": [
+				"./packages/agent-core/src/harness/session/testing/index.ts"
+			],
+			"@pfsaa/agent-core/node": ["./packages/agent-core/src/node.ts"],
+			"@pfsaa/agent-core/*": [
+				"./packages/agent-core/src/*.ts",
+				"./packages/agent-core/src/*/index.ts",
+				"./packages/agent-core/src/*"
+			],
+			"@pfsaa/sqlite-node": ["./packages/session-backends/sqlite-node/src/index.ts"],
+			"@pfsaa/agentcore-cli": ["./packages/agentcore-cli/src/index.ts"],
+			"@pfsaa/agentcore-cli/experimental/plugin": [
+				"./packages/agentcore-cli/src/experimental/plugin.ts"
+			],
+			"@pfsaa/agentcore-cli/hooks": ["./packages/agentcore-cli/src/core/hooks/index.ts"],
+			"@pfsaa/agentcore-cli/*": ["./packages/agentcore-cli/src/*"],
+			"@pfsaa/protocol": ["./packages/protocol/src/index.ts"],
+			"@pfsaa/protocol/*": ["./packages/protocol/src/*"],
+			"@pfsaa/client": ["./packages/client/src/index.ts"],
+			"@pfsaa/client/unix": ["./packages/client/src/unix.ts"],
+			"@pfsaa/client/*": ["./packages/client/src/*"],
+			"@pfsaa/server": ["./packages/server/src/index.ts"],
+			"@pfsaa/server/unix": ["./packages/server/src/transports/unix/index.ts"],
+			"@pfsaa/server/*": ["./packages/server/src/*"],
+			"typebox": ["./node_modules/typebox"],
+			"@pfsaa/tui": ["./packages/tui/src/index.ts"],
+			"@pfsaa/tui/*": ["./packages/tui/src/*"]
+		}
+	},
+	"include": ["packages/*/src/**/*", "packages/*/test/**/*", "packages/session-backends/*/src/**/*", "packages/session-backends/*/test/**/*", "packages/agentcore-cli/examples/**/*"],
+	"exclude": ["**/dist/**", "packages/agentcore-cli/examples/extensions/gondolin/**"]
+}

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" role="img" aria-labelledby="title">
+  <title id="title">PFSAA power-flow network</title>
+  <rect width="1024" height="1024" rx="224" fill="#f7f6f1"/>
+  <g fill="none" stroke="#24211e" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M242 342h232l96 96h212" stroke-width="42"/>
+    <path d="M242 682h232l96-96h212" stroke-width="42"/>
+    <path d="M242 342v340" stroke-width="42"/>
+    <path d="M782 438v148" stroke-width="42"/>
+    <path d="M474 342v340" stroke-width="42"/>
+  </g>
+  <g fill="#f7f6f1" stroke="#24211e" stroke-width="34">
+    <circle cx="242" cy="342" r="52"/>
+    <circle cx="242" cy="682" r="52"/>
+    <circle cx="474" cy="342" r="52"/>
+    <circle cx="474" cy="682" r="52"/>
+    <circle cx="782" cy="438" r="52"/>
+    <circle cx="782" cy="586" r="52"/>
+  </g>
+  <path d="M489 512h138l-42-50 118 50-118 50 42-50H489z" fill="#d86432"/>
+</svg>

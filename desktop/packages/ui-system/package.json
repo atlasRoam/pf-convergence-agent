@@ -1,0 +1,24 @@
+{
+  "name": "@pfsaa/ui-system",
+  "version": "0.2.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "types": "./src/index.tsx",
+  "exports": {
+    ".": {
+      "types": "./src/index.tsx",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.18"
+  },
+  "dependencies": {
+    "focus-trap": "^8.2.2",
+    "react": "^19.2.8"
+  }
+}

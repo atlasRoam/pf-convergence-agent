@@ -1,0 +1,7 @@
+PFSAA / Power-Flow Solving and Adjustment Agent
+Copyright 2026 AtlasRoam
+
+AtlasRoam additions are distributed under the Apache License, Version 2.0.
+The desktop application includes MIT-licensed upstream material; its original
+copyright and license are retained in LICENSE.upstream-MIT. Dependencies have
+their own licenses as listed in THIRD_PARTY_NOTICES.txt.

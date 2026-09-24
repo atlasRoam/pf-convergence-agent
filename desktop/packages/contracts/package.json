@@ -1,0 +1,19 @@
+{
+  "name": "@pfsaa/contracts",
+  "version": "0.2.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "dependencies": {
+    "zod": "^4.5.2"
+  }
+}

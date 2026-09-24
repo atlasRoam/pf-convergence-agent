@@ -1,0 +1,919 @@
+PFSAA Third-Party Notices
+==========================
+
+PFSAA additions are licensed under Apache-2.0; see LICENSE.
+The original desktop MIT copyright and license remain in LICENSE.upstream-MIT.
+The AgentCore source retains its original MIT copyright and license in ../source/LICENSE.
+The following bundled packages remain subject to their own licenses.
+This deterministic inventory is generated from package-lock.json.
+
+@antfu/install-pkg@1.1.0 — MIT
+  https://www.npmjs.com/package/%40antfu%2Finstall-pkg/v/1.1.0
+@anthropic-ai/sdk@0.123.0 — MIT
+  https://www.npmjs.com/package/%40anthropic-ai%2Fsdk/v/0.123.0
+@aws-crypto/crc32@5.2.0 — Apache-2.0
+  https://www.npmjs.com/package/%40aws-crypto%2Fcrc32/v/5.2.0
+@aws-crypto/sha256-browser@5.2.0 — Apache-2.0
+  https://www.npmjs.com/package/%40aws-crypto%2Fsha256-browser/v/5.2.0
+@aws-crypto/sha256-js@5.2.0 — Apache-2.0
+  https://www.npmjs.com/package/%40aws-crypto%2Fsha256-js/v/5.2.0
+@aws-crypto/supports-web-crypto@5.2.0 — Apache-2.0
+  https://www.npmjs.com/package/%40aws-crypto%2Fsupports-web-crypto/v/5.2.0
+@aws-crypto/util@5.2.0 — Apache-2.0
+  https://www.npmjs.com/package/%40aws-crypto%2Futil/v/5.2.0
+@aws-sdk/client-bedrock-runtime@3.1048.0 — Apache-2.0
+  https://www.npmjs.com/package/%40aws-sdk%2Fclient-bedrock-runtime/v/3.1048.0
+@aws-sdk/core@3.974.11 — Apache-2.0
+  https://www.npmjs.com/package/%40aws-sdk%2Fcore/v/3.974.11
+@aws-sdk/credential-provider-env@3.972.37 — Apache-2.0
+  https://www.npmjs.com/package/%40aws-sdk%2Fcredential-provider-env/v/3.972.37
+@aws-sdk/credential-provider-http@3.972.39 — Apache-2.0
+  https://www.npmjs.com/package/%40aws-sdk%2Fcredential-provider-http/v/3.972.39
+@aws-sdk/credential-provider-ini@3.972.41 — Apache-2.0
+  https://www.npmjs.com/package/%40aws-sdk%2Fcredential-provider-ini/v/3.972.41
+@aws-sdk/credential-provider-login@3.972.41 — Apache-2.0
+  https://www.npmjs.com/package/%40aws-sdk%2Fcredential-provider-login/v/3.972.41
+@aws-sdk/credential-provider-node@3.972.42 — Apache-2.0
+  https://www.npmjs.com/package/%40aws-sdk%2Fcredential-provider-node/v/3.972.42
+@aws-sdk/credential-provider-process@3.972.37 — Apache-2.0
+  https://www.npmjs.com/package/%40aws-sdk%2Fcredential-provider-process/v/3.972.37
+@aws-sdk/credential-provider-sso@3.972.41 — Apache-2.0
+  https://www.npmjs.com/package/%40aws-sdk%2Fcredential-provider-sso/v/3.972.41
+@aws-sdk/credential-provider-web-identity@3.972.41 — Apache-2.0
+  https://www.npmjs.com/package/%40aws-sdk%2Fcredential-provider-web-identity/v/3.972.41
+@aws-sdk/eventstream-handler-node@3.972.16 — Apache-2.0
+  https://www.npmjs.com/package/%40aws-sdk%2Feventstream-handler-node/v/3.972.16
+@aws-sdk/middleware-eventstream@3.972.12 — Apache-2.0
+  https://www.npmjs.com/package/%40aws-sdk%2Fmiddleware-eventstream/v/3.972.12
+@aws-sdk/middleware-websocket@3.972.19 — Apache-2.0
+  https://www.npmjs.com/package/%40aws-sdk%2Fmiddleware-websocket/v/3.972.19
+@aws-sdk/nested-clients@3.997.9 — Apache-2.0
+  https://www.npmjs.com/package/%40aws-sdk%2Fnested-clients/v/3.997.9
+@aws-sdk/signature-v4-multi-region@3.996.27 — Apache-2.0
+  https://www.npmjs.com/package/%40aws-sdk%2Fsignature-v4-multi-region/v/3.996.27
+@aws-sdk/token-providers@3.1048.0 — Apache-2.0
+  https://www.npmjs.com/package/%40aws-sdk%2Ftoken-providers/v/3.1048.0
+@aws-sdk/types@3.973.8 — Apache-2.0
+  https://www.npmjs.com/package/%40aws-sdk%2Ftypes/v/3.973.8
+@aws-sdk/util-locate-window@3.965.5 — Apache-2.0
+  https://www.npmjs.com/package/%40aws-sdk%2Futil-locate-window/v/3.965.5
+@aws-sdk/xml-builder@3.972.24 — Apache-2.0
+  https://www.npmjs.com/package/%40aws-sdk%2Fxml-builder/v/3.972.24
+@aws/lambda-invoke-store@0.2.4 — Apache-2.0
+  https://www.npmjs.com/package/%40aws%2Flambda-invoke-store/v/0.2.4
+@babel/runtime@7.29.2 — MIT
+  https://www.npmjs.com/package/%40babel%2Fruntime/v/7.29.2
+@braintree/sanitize-url@7.1.2 — MIT
+  https://www.npmjs.com/package/%40braintree%2Fsanitize-url/v/7.1.2
+@chevrotain/types@11.1.2 — Apache-2.0
+  https://www.npmjs.com/package/%40chevrotain%2Ftypes/v/11.1.2
+@codemirror/autocomplete@6.20.3 — MIT
+  https://www.npmjs.com/package/%40codemirror%2Fautocomplete/v/6.20.3
+@codemirror/commands@6.11.0 — MIT
+  https://www.npmjs.com/package/%40codemirror%2Fcommands/v/6.11.0
+@codemirror/language@6.12.4 — MIT
+  https://www.npmjs.com/package/%40codemirror%2Flanguage/v/6.12.4
+@codemirror/lint@6.9.7 — MIT
+  https://www.npmjs.com/package/%40codemirror%2Flint/v/6.9.7
+@codemirror/merge@6.12.2 — MIT
+  https://www.npmjs.com/package/%40codemirror%2Fmerge/v/6.12.2
+@codemirror/search@6.7.2 — MIT
+  https://www.npmjs.com/package/%40codemirror%2Fsearch/v/6.7.2
+@codemirror/state@6.7.4 — MIT
+  https://www.npmjs.com/package/%40codemirror%2Fstate/v/6.7.4
+@codemirror/view@6.43.11 — MIT
+  https://www.npmjs.com/package/%40codemirror%2Fview/v/6.43.11
+@earendil-works/chord@0.85.1 — MIT
+  https://www.npmjs.com/package/%40earendil-works%2Fchord/v/0.85.1
+@earendil-works/pi-agent-core@0.85.1 — MIT
+  https://www.npmjs.com/package/%40earendil-works%2Fpi-agent-core/v/0.85.1
+@earendil-works/pi-ai@0.85.1 — MIT
+  https://www.npmjs.com/package/%40earendil-works%2Fpi-ai/v/0.85.1
+@earendil-works/pi-coding-agent@0.85.1 — MIT
+  https://www.npmjs.com/package/%40earendil-works%2Fpi-coding-agent/v/0.85.1
+@earendil-works/pi-telemetry@0.85.1 — MIT
+  https://www.npmjs.com/package/%40earendil-works%2Fpi-telemetry/v/0.85.1
+@earendil-works/pi-tui@0.85.1 — MIT
+  https://www.npmjs.com/package/%40earendil-works%2Fpi-tui/v/0.85.1
+@esbuild/aix-ppc64@0.28.1 — MIT
+  https://www.npmjs.com/package/%40esbuild%2Faix-ppc64/v/0.28.1
+@esbuild/android-arm@0.28.1 — MIT
+  https://www.npmjs.com/package/%40esbuild%2Fandroid-arm/v/0.28.1
+@esbuild/android-arm64@0.28.1 — MIT
+  https://www.npmjs.com/package/%40esbuild%2Fandroid-arm64/v/0.28.1
+@esbuild/android-x64@0.28.1 — MIT
+  https://www.npmjs.com/package/%40esbuild%2Fandroid-x64/v/0.28.1
+@esbuild/darwin-arm64@0.28.1 — MIT
+  https://www.npmjs.com/package/%40esbuild%2Fdarwin-arm64/v/0.28.1
+@esbuild/darwin-x64@0.28.1 — MIT
+  https://www.npmjs.com/package/%40esbuild%2Fdarwin-x64/v/0.28.1
+@esbuild/freebsd-arm64@0.28.1 — MIT
+  https://www.npmjs.com/package/%40esbuild%2Ffreebsd-arm64/v/0.28.1
+@esbuild/freebsd-x64@0.28.1 — MIT
+  https://www.npmjs.com/package/%40esbuild%2Ffreebsd-x64/v/0.28.1
+@esbuild/linux-arm@0.28.1 — MIT
+  https://www.npmjs.com/package/%40esbuild%2Flinux-arm/v/0.28.1
+@esbuild/linux-arm64@0.28.1 — MIT
+  https://www.npmjs.com/package/%40esbuild%2Flinux-arm64/v/0.28.1
+@esbuild/linux-ia32@0.28.1 — MIT
+  https://www.npmjs.com/package/%40esbuild%2Flinux-ia32/v/0.28.1
+@esbuild/linux-loong64@0.28.1 — MIT
+  https://www.npmjs.com/package/%40esbuild%2Flinux-loong64/v/0.28.1
+@esbuild/linux-mips64el@0.28.1 — MIT
+  https://www.npmjs.com/package/%40esbuild%2Flinux-mips64el/v/0.28.1
+@esbuild/linux-ppc64@0.28.1 — MIT
+  https://www.npmjs.com/package/%40esbuild%2Flinux-ppc64/v/0.28.1
+@esbuild/linux-riscv64@0.28.1 — MIT
+  https://www.npmjs.com/package/%40esbuild%2Flinux-riscv64/v/0.28.1
+@esbuild/linux-s390x@0.28.1 — MIT
+  https://www.npmjs.com/package/%40esbuild%2Flinux-s390x/v/0.28.1
+@esbuild/linux-x64@0.28.1 — MIT
+  https://www.npmjs.com/package/%40esbuild%2Flinux-x64/v/0.28.1
+@esbuild/netbsd-arm64@0.28.1 — MIT
+  https://www.npmjs.com/package/%40esbuild%2Fnetbsd-arm64/v/0.28.1
+@esbuild/netbsd-x64@0.28.1 — MIT
+  https://www.npmjs.com/package/%40esbuild%2Fnetbsd-x64/v/0.28.1
+@esbuild/openbsd-arm64@0.28.1 — MIT
+  https://www.npmjs.com/package/%40esbuild%2Fopenbsd-arm64/v/0.28.1
+@esbuild/openbsd-x64@0.28.1 — MIT
+  https://www.npmjs.com/package/%40esbuild%2Fopenbsd-x64/v/0.28.1
+@esbuild/openharmony-arm64@0.28.1 — MIT
+  https://www.npmjs.com/package/%40esbuild%2Fopenharmony-arm64/v/0.28.1
+@esbuild/sunos-x64@0.28.1 — MIT
+  https://www.npmjs.com/package/%40esbuild%2Fsunos-x64/v/0.28.1
+@esbuild/win32-arm64@0.28.1 — MIT
+  https://www.npmjs.com/package/%40esbuild%2Fwin32-arm64/v/0.28.1
+@esbuild/win32-ia32@0.28.1 — MIT
+  https://www.npmjs.com/package/%40esbuild%2Fwin32-ia32/v/0.28.1
+@esbuild/win32-x64@0.28.1 — MIT
+  https://www.npmjs.com/package/%40esbuild%2Fwin32-x64/v/0.28.1
+@google/genai@1.52.0 — Apache-2.0
+  https://www.npmjs.com/package/%40google%2Fgenai/v/1.52.0
+@gotgenes/pi-permission-system@31.1.1 — MIT
+  https://www.npmjs.com/package/%40gotgenes%2Fpi-permission-system/v/31.1.1
+@iconify/types@2.0.0 — MIT
+  https://www.npmjs.com/package/%40iconify%2Ftypes/v/2.0.0
+@iconify/utils@3.1.4 — MIT
+  https://www.npmjs.com/package/%40iconify%2Futils/v/3.1.4
+@lezer/common@1.5.2 — MIT
+  https://www.npmjs.com/package/%40lezer%2Fcommon/v/1.5.2
+@lezer/highlight@1.2.3 — MIT
+  https://www.npmjs.com/package/%40lezer%2Fhighlight/v/1.2.3
+@lezer/lr@1.4.10 — MIT
+  https://www.npmjs.com/package/%40lezer%2Flr/v/1.4.10
+@marijn/find-cluster-break@1.0.4 — MIT
+  https://www.npmjs.com/package/%40marijn%2Ffind-cluster-break/v/1.0.4
+@mariozechner/clipboard@0.3.9 — MIT
+  https://www.npmjs.com/package/%40mariozechner%2Fclipboard/v/0.3.9
+@mariozechner/clipboard-darwin-arm64@0.3.9 — MIT
+  https://www.npmjs.com/package/%40mariozechner%2Fclipboard-darwin-arm64/v/0.3.9
+@mariozechner/clipboard-darwin-universal@0.3.9 — MIT
+  https://www.npmjs.com/package/%40mariozechner%2Fclipboard-darwin-universal/v/0.3.9
+@mariozechner/clipboard-darwin-x64@0.3.9 — MIT
+  https://www.npmjs.com/package/%40mariozechner%2Fclipboard-darwin-x64/v/0.3.9
+@mariozechner/clipboard-linux-arm64-gnu@0.3.9 — MIT
+  https://www.npmjs.com/package/%40mariozechner%2Fclipboard-linux-arm64-gnu/v/0.3.9
+@mariozechner/clipboard-linux-arm64-musl@0.3.9 — MIT
+  https://www.npmjs.com/package/%40mariozechner%2Fclipboard-linux-arm64-musl/v/0.3.9
+@mariozechner/clipboard-linux-riscv64-gnu@0.3.9 — MIT
+  https://www.npmjs.com/package/%40mariozechner%2Fclipboard-linux-riscv64-gnu/v/0.3.9
+@mariozechner/clipboard-linux-x64-gnu@0.3.9 — MIT
+  https://www.npmjs.com/package/%40mariozechner%2Fclipboard-linux-x64-gnu/v/0.3.9
+@mariozechner/clipboard-linux-x64-musl@0.3.9 — MIT
+  https://www.npmjs.com/package/%40mariozechner%2Fclipboard-linux-x64-musl/v/0.3.9
+@mariozechner/clipboard-win32-arm64-msvc@0.3.9 — MIT
+  https://www.npmjs.com/package/%40mariozechner%2Fclipboard-win32-arm64-msvc/v/0.3.9
+@mariozechner/clipboard-win32-x64-msvc@0.3.9 — MIT
+  https://www.npmjs.com/package/%40mariozechner%2Fclipboard-win32-x64-msvc/v/0.3.9
+@mermaid-js/parser@1.2.1 — MIT
+  https://www.npmjs.com/package/%40mermaid-js%2Fparser/v/1.2.1
+@nodable/entities@2.1.0 — MIT
+  https://www.npmjs.com/package/%40nodable%2Fentities/v/2.1.0
+@protobufjs/aspromise@1.1.2 — BSD-3-Clause
+  https://www.npmjs.com/package/%40protobufjs%2Faspromise/v/1.1.2
+@protobufjs/base64@1.1.2 — BSD-3-Clause
+  https://www.npmjs.com/package/%40protobufjs%2Fbase64/v/1.1.2
+@protobufjs/codegen@2.0.5 — BSD-3-Clause
+  https://www.npmjs.com/package/%40protobufjs%2Fcodegen/v/2.0.5
+@protobufjs/eventemitter@1.1.1 — BSD-3-Clause
+  https://www.npmjs.com/package/%40protobufjs%2Feventemitter/v/1.1.1
+@protobufjs/fetch@1.1.1 — BSD-3-Clause
+  https://www.npmjs.com/package/%40protobufjs%2Ffetch/v/1.1.1
+@protobufjs/float@1.0.2 — BSD-3-Clause
+  https://www.npmjs.com/package/%40protobufjs%2Ffloat/v/1.0.2
+@protobufjs/path@1.1.2 — BSD-3-Clause
+  https://www.npmjs.com/package/%40protobufjs%2Fpath/v/1.1.2
+@protobufjs/pool@1.1.0 — BSD-3-Clause
+  https://www.npmjs.com/package/%40protobufjs%2Fpool/v/1.1.0
+@protobufjs/utf8@1.1.1 — BSD-3-Clause
+  https://www.npmjs.com/package/%40protobufjs%2Futf8/v/1.1.1
+@radix-ui/primitive@1.1.7 — MIT
+  https://www.npmjs.com/package/%40radix-ui%2Fprimitive/v/1.1.7
+@radix-ui/react-compose-refs@1.1.5 — MIT
+  https://www.npmjs.com/package/%40radix-ui%2Freact-compose-refs/v/1.1.5
+@radix-ui/react-context@1.2.2 — MIT
+  https://www.npmjs.com/package/%40radix-ui%2Freact-context/v/1.2.2
+@radix-ui/react-dialog@1.1.23 — MIT
+  https://www.npmjs.com/package/%40radix-ui%2Freact-dialog/v/1.1.23
+@radix-ui/react-dismissable-layer@1.1.19 — MIT
+  https://www.npmjs.com/package/%40radix-ui%2Freact-dismissable-layer/v/1.1.19
+@radix-ui/react-focus-guards@1.1.6 — MIT
+  https://www.npmjs.com/package/%40radix-ui%2Freact-focus-guards/v/1.1.6
+@radix-ui/react-focus-scope@1.1.16 — MIT
+  https://www.npmjs.com/package/%40radix-ui%2Freact-focus-scope/v/1.1.16
+@radix-ui/react-id@1.1.4 — MIT
+  https://www.npmjs.com/package/%40radix-ui%2Freact-id/v/1.1.4
+@radix-ui/react-portal@1.1.17 — MIT
+  https://www.npmjs.com/package/%40radix-ui%2Freact-portal/v/1.1.17
+@radix-ui/react-presence@1.1.10 — MIT
+  https://www.npmjs.com/package/%40radix-ui%2Freact-presence/v/1.1.10
+@radix-ui/react-primitive@2.1.10 — MIT
+  https://www.npmjs.com/package/%40radix-ui%2Freact-primitive/v/2.1.10
+@radix-ui/react-slot@1.3.3 — MIT
+  https://www.npmjs.com/package/%40radix-ui%2Freact-slot/v/1.3.3
+@radix-ui/react-use-callback-ref@1.1.4 — MIT
+  https://www.npmjs.com/package/%40radix-ui%2Freact-use-callback-ref/v/1.1.4
+@radix-ui/react-use-controllable-state@1.2.6 — MIT
+  https://www.npmjs.com/package/%40radix-ui%2Freact-use-controllable-state/v/1.2.6
+@radix-ui/react-use-effect-event@0.0.5 — MIT
+  https://www.npmjs.com/package/%40radix-ui%2Freact-use-effect-event/v/0.0.5
+@radix-ui/react-use-layout-effect@1.1.4 — MIT
+  https://www.npmjs.com/package/%40radix-ui%2Freact-use-layout-effect/v/1.1.4
+@silvia-odwyer/photon-node@0.3.4 — Apache-2.0
+  https://www.npmjs.com/package/%40silvia-odwyer%2Fphoton-node/v/0.3.4
+@smithy/core@3.24.3 — Apache-2.0
+  https://www.npmjs.com/package/%40smithy%2Fcore/v/3.24.3
+@smithy/credential-provider-imds@4.3.3 — Apache-2.0
+  https://www.npmjs.com/package/%40smithy%2Fcredential-provider-imds/v/4.3.3
+@smithy/fetch-http-handler@5.4.3 — Apache-2.0
+  https://www.npmjs.com/package/%40smithy%2Ffetch-http-handler/v/5.4.3
+@smithy/is-array-buffer@2.2.0 — Apache-2.0
+  https://www.npmjs.com/package/%40smithy%2Fis-array-buffer/v/2.2.0
+@smithy/node-http-handler@4.7.3 — Apache-2.0
+  https://www.npmjs.com/package/%40smithy%2Fnode-http-handler/v/4.7.3
+@smithy/signature-v4@5.4.3 — Apache-2.0
+  https://www.npmjs.com/package/%40smithy%2Fsignature-v4/v/5.4.3
+@smithy/types@4.14.2 — Apache-2.0
+  https://www.npmjs.com/package/%40smithy%2Ftypes/v/4.14.2
+@smithy/util-buffer-from@2.2.0 — Apache-2.0
+  https://www.npmjs.com/package/%40smithy%2Futil-buffer-from/v/2.2.0
+@smithy/util-utf8@2.3.0 — Apache-2.0
+  https://www.npmjs.com/package/%40smithy%2Futil-utf8/v/2.3.0
+@stablelib/base64@1.0.1 — MIT
+  https://www.npmjs.com/package/%40stablelib%2Fbase64/v/1.0.1
+@types/d3@7.4.3 — MIT
+  https://www.npmjs.com/package/%40types%2Fd3/v/7.4.3
+@types/d3-array@3.2.2 — MIT
+  https://www.npmjs.com/package/%40types%2Fd3-array/v/3.2.2
+@types/d3-axis@3.0.6 — MIT
+  https://www.npmjs.com/package/%40types%2Fd3-axis/v/3.0.6
+@types/d3-brush@3.0.6 — MIT
+  https://www.npmjs.com/package/%40types%2Fd3-brush/v/3.0.6
+@types/d3-chord@3.0.6 — MIT
+  https://www.npmjs.com/package/%40types%2Fd3-chord/v/3.0.6
+@types/d3-color@3.1.3 — MIT
+  https://www.npmjs.com/package/%40types%2Fd3-color/v/3.1.3
+@types/d3-contour@3.0.6 — MIT
+  https://www.npmjs.com/package/%40types%2Fd3-contour/v/3.0.6
+@types/d3-delaunay@6.0.4 — MIT
+  https://www.npmjs.com/package/%40types%2Fd3-delaunay/v/6.0.4
+@types/d3-dispatch@3.0.7 — MIT
+  https://www.npmjs.com/package/%40types%2Fd3-dispatch/v/3.0.7
+@types/d3-drag@3.0.7 — MIT
+  https://www.npmjs.com/package/%40types%2Fd3-drag/v/3.0.7
+@types/d3-dsv@3.0.7 — MIT
+  https://www.npmjs.com/package/%40types%2Fd3-dsv/v/3.0.7
+@types/d3-ease@3.0.2 — MIT
+  https://www.npmjs.com/package/%40types%2Fd3-ease/v/3.0.2
+@types/d3-fetch@3.0.7 — MIT
+  https://www.npmjs.com/package/%40types%2Fd3-fetch/v/3.0.7
+@types/d3-force@3.0.10 — MIT
+  https://www.npmjs.com/package/%40types%2Fd3-force/v/3.0.10
+@types/d3-format@3.0.4 — MIT
+  https://www.npmjs.com/package/%40types%2Fd3-format/v/3.0.4
+@types/d3-geo@3.1.1 — MIT
+  https://www.npmjs.com/package/%40types%2Fd3-geo/v/3.1.1
+@types/d3-hierarchy@3.1.7 — MIT
+  https://www.npmjs.com/package/%40types%2Fd3-hierarchy/v/3.1.7
+@types/d3-interpolate@3.0.4 — MIT
+  https://www.npmjs.com/package/%40types%2Fd3-interpolate/v/3.0.4
+@types/d3-path@3.1.1 — MIT
+  https://www.npmjs.com/package/%40types%2Fd3-path/v/3.1.1
+@types/d3-polygon@3.0.2 — MIT
+  https://www.npmjs.com/package/%40types%2Fd3-polygon/v/3.0.2
+@types/d3-quadtree@3.0.6 — MIT
+  https://www.npmjs.com/package/%40types%2Fd3-quadtree/v/3.0.6
+@types/d3-random@3.0.4 — MIT
+  https://www.npmjs.com/package/%40types%2Fd3-random/v/3.0.4
+@types/d3-scale@4.0.9 — MIT
+  https://www.npmjs.com/package/%40types%2Fd3-scale/v/4.0.9
+@types/d3-scale-chromatic@3.1.0 — MIT
+  https://www.npmjs.com/package/%40types%2Fd3-scale-chromatic/v/3.1.0
+@types/d3-selection@3.0.11 — MIT
+  https://www.npmjs.com/package/%40types%2Fd3-selection/v/3.0.11
+@types/d3-shape@3.2.0 — MIT
+  https://www.npmjs.com/package/%40types%2Fd3-shape/v/3.2.0
+@types/d3-time@3.0.4 — MIT
+  https://www.npmjs.com/package/%40types%2Fd3-time/v/3.0.4
+@types/d3-time-format@4.0.3 — MIT
+  https://www.npmjs.com/package/%40types%2Fd3-time-format/v/4.0.3
+@types/d3-timer@3.0.2 — MIT
+  https://www.npmjs.com/package/%40types%2Fd3-timer/v/3.0.2
+@types/d3-transition@3.0.9 — MIT
+  https://www.npmjs.com/package/%40types%2Fd3-transition/v/3.0.9
+@types/d3-zoom@3.0.8 — MIT
+  https://www.npmjs.com/package/%40types%2Fd3-zoom/v/3.0.8
+@types/debug@4.1.13 — MIT
+  https://www.npmjs.com/package/%40types%2Fdebug/v/4.1.13
+@types/estree@1.0.9 — MIT
+  https://www.npmjs.com/package/%40types%2Festree/v/1.0.9
+@types/estree-jsx@1.0.5 — MIT
+  https://www.npmjs.com/package/%40types%2Festree-jsx/v/1.0.5
+@types/geojson@7946.0.16 — MIT
+  https://www.npmjs.com/package/%40types%2Fgeojson/v/7946.0.16
+@types/hast@3.0.5 — MIT
+  https://www.npmjs.com/package/%40types%2Fhast/v/3.0.5
+@types/katex@0.16.8 — MIT
+  https://www.npmjs.com/package/%40types%2Fkatex/v/0.16.8
+@types/mdast@4.0.4 — MIT
+  https://www.npmjs.com/package/%40types%2Fmdast/v/4.0.4
+@types/ms@2.1.0 — MIT
+  https://www.npmjs.com/package/%40types%2Fms/v/2.1.0
+@types/node@22.19.19 — MIT
+  https://www.npmjs.com/package/%40types%2Fnode/v/22.19.19
+@types/react@19.2.18 — MIT
+  https://www.npmjs.com/package/%40types%2Freact/v/19.2.18
+@types/react-dom@19.2.5 — MIT
+  https://www.npmjs.com/package/%40types%2Freact-dom/v/19.2.5
+@types/retry@0.12.0 — MIT
+  https://www.npmjs.com/package/%40types%2Fretry/v/0.12.0
+@types/trusted-types@2.0.7 — MIT
+  https://www.npmjs.com/package/%40types%2Ftrusted-types/v/2.0.7
+@types/unist@2.0.11 — MIT
+  https://www.npmjs.com/package/%40types%2Funist/v/2.0.11
+@types/unist@3.0.3 — MIT
+  https://www.npmjs.com/package/%40types%2Funist/v/3.0.3
+@ungap/structured-clone@1.4.0 — ISC
+  https://www.npmjs.com/package/%40ungap%2Fstructured-clone/v/1.4.0
+@upsetjs/venn.js@2.0.0 — MIT
+  https://www.npmjs.com/package/%40upsetjs%2Fvenn.js/v/2.0.0
+@xterm/addon-fit@0.11.0 — MIT
+  https://www.npmjs.com/package/%40xterm%2Faddon-fit/v/0.11.0
+@xterm/xterm@6.0.0 — MIT
+  https://www.npmjs.com/package/%40xterm%2Fxterm/v/6.0.0
+agent-base@7.1.4 — MIT
+  https://www.npmjs.com/package/agent-base/v/7.1.4
+aria-hidden@1.2.6 — MIT
+  https://www.npmjs.com/package/aria-hidden/v/1.2.6
+bail@2.0.2 — MIT
+  https://www.npmjs.com/package/bail/v/2.0.2
+balanced-match@4.0.4 — MIT
+  https://www.npmjs.com/package/balanced-match/v/4.0.4
+base64-js@1.5.1 — MIT
+  https://www.npmjs.com/package/base64-js/v/1.5.1
+bignumber.js@9.3.1 — MIT
+  https://www.npmjs.com/package/bignumber.js/v/9.3.1
+bowser@2.14.1 — MIT
+  https://www.npmjs.com/package/bowser/v/2.14.1
+brace-expansion@5.0.9 — MIT
+  https://www.npmjs.com/package/brace-expansion/v/5.0.9
+buffer-equal-constant-time@1.0.1 — BSD-3-Clause
+  https://www.npmjs.com/package/buffer-equal-constant-time/v/1.0.1
+ccount@2.0.1 — MIT
+  https://www.npmjs.com/package/ccount/v/2.0.1
+chalk@5.6.2 — MIT
+  https://www.npmjs.com/package/chalk/v/5.6.2
+character-entities@2.0.2 — MIT
+  https://www.npmjs.com/package/character-entities/v/2.0.2
+character-entities-html4@2.1.0 — MIT
+  https://www.npmjs.com/package/character-entities-html4/v/2.1.0
+character-entities-legacy@3.0.0 — MIT
+  https://www.npmjs.com/package/character-entities-legacy/v/3.0.0
+character-reference-invalid@2.0.1 — MIT
+  https://www.npmjs.com/package/character-reference-invalid/v/2.0.1
+cmdk@1.1.1 — MIT
+  https://www.npmjs.com/package/cmdk/v/1.1.1
+codemirror@6.0.2 — MIT
+  https://www.npmjs.com/package/codemirror/v/6.0.2
+comma-separated-tokens@2.0.3 — MIT
+  https://www.npmjs.com/package/comma-separated-tokens/v/2.0.3
+commander@7.2.0 — MIT
+  https://www.npmjs.com/package/commander/v/7.2.0
+commander@8.3.0 — MIT
+  https://www.npmjs.com/package/commander/v/8.3.0
+cose-base@1.0.3 — MIT
+  https://www.npmjs.com/package/cose-base/v/1.0.3
+cose-base@2.2.0 — MIT
+  https://www.npmjs.com/package/cose-base/v/2.2.0
+crelt@1.0.7 — MIT
+  https://www.npmjs.com/package/crelt/v/1.0.7
+cross-spawn@7.0.6 — MIT
+  https://www.npmjs.com/package/cross-spawn/v/7.0.6
+csstype@3.2.3 — MIT
+  https://www.npmjs.com/package/csstype/v/3.2.3
+cytoscape@3.34.2 — MIT
+  https://www.npmjs.com/package/cytoscape/v/3.34.2
+cytoscape-cose-bilkent@4.1.0 — MIT
+  https://www.npmjs.com/package/cytoscape-cose-bilkent/v/4.1.0
+cytoscape-fcose@2.2.0 — MIT
+  https://www.npmjs.com/package/cytoscape-fcose/v/2.2.0
+d3@7.9.0 — ISC
+  https://www.npmjs.com/package/d3/v/7.9.0
+d3-array@2.12.1 — BSD-3-Clause
+  https://www.npmjs.com/package/d3-array/v/2.12.1
+d3-array@3.2.4 — ISC
+  https://www.npmjs.com/package/d3-array/v/3.2.4
+d3-axis@3.0.0 — ISC
+  https://www.npmjs.com/package/d3-axis/v/3.0.0
+d3-brush@3.0.0 — ISC
+  https://www.npmjs.com/package/d3-brush/v/3.0.0
+d3-chord@3.0.1 — ISC
+  https://www.npmjs.com/package/d3-chord/v/3.0.1
+d3-color@3.1.0 — ISC
+  https://www.npmjs.com/package/d3-color/v/3.1.0
+d3-contour@4.0.2 — ISC
+  https://www.npmjs.com/package/d3-contour/v/4.0.2
+d3-delaunay@6.0.4 — ISC
+  https://www.npmjs.com/package/d3-delaunay/v/6.0.4
+d3-dispatch@3.0.1 — ISC
+  https://www.npmjs.com/package/d3-dispatch/v/3.0.1
+d3-drag@3.0.0 — ISC
+  https://www.npmjs.com/package/d3-drag/v/3.0.0
+d3-dsv@3.0.1 — ISC
+  https://www.npmjs.com/package/d3-dsv/v/3.0.1
+d3-ease@3.0.1 — BSD-3-Clause
+  https://www.npmjs.com/package/d3-ease/v/3.0.1
+d3-fetch@3.0.1 — ISC
+  https://www.npmjs.com/package/d3-fetch/v/3.0.1
+d3-force@3.0.0 — ISC
+  https://www.npmjs.com/package/d3-force/v/3.0.0
+d3-format@3.1.2 — ISC
+  https://www.npmjs.com/package/d3-format/v/3.1.2
+d3-geo@3.1.1 — ISC
+  https://www.npmjs.com/package/d3-geo/v/3.1.1
+d3-hierarchy@3.1.2 — ISC
+  https://www.npmjs.com/package/d3-hierarchy/v/3.1.2
+d3-interpolate@3.0.1 — ISC
+  https://www.npmjs.com/package/d3-interpolate/v/3.0.1
+d3-path@1.0.9 — BSD-3-Clause
+  https://www.npmjs.com/package/d3-path/v/1.0.9
+d3-path@3.1.0 — ISC
+  https://www.npmjs.com/package/d3-path/v/3.1.0
+d3-polygon@3.0.1 — ISC
+  https://www.npmjs.com/package/d3-polygon/v/3.0.1
+d3-quadtree@3.0.1 — ISC
+  https://www.npmjs.com/package/d3-quadtree/v/3.0.1
+d3-random@3.0.1 — ISC
+  https://www.npmjs.com/package/d3-random/v/3.0.1
+d3-sankey@0.12.3 — BSD-3-Clause
+  https://www.npmjs.com/package/d3-sankey/v/0.12.3
+d3-scale@4.0.2 — ISC
+  https://www.npmjs.com/package/d3-scale/v/4.0.2
+d3-scale-chromatic@3.1.0 — ISC
+  https://www.npmjs.com/package/d3-scale-chromatic/v/3.1.0
+d3-selection@3.0.0 — ISC
+  https://www.npmjs.com/package/d3-selection/v/3.0.0
+d3-shape@1.3.7 — BSD-3-Clause
+  https://www.npmjs.com/package/d3-shape/v/1.3.7
+d3-shape@3.2.0 — ISC
+  https://www.npmjs.com/package/d3-shape/v/3.2.0
+d3-time@3.1.0 — ISC
+  https://www.npmjs.com/package/d3-time/v/3.1.0
+d3-time-format@4.1.0 — ISC
+  https://www.npmjs.com/package/d3-time-format/v/4.1.0
+d3-timer@3.0.1 — ISC
+  https://www.npmjs.com/package/d3-timer/v/3.0.1
+d3-transition@3.0.1 — ISC
+  https://www.npmjs.com/package/d3-transition/v/3.0.1
+d3-zoom@3.0.0 — ISC
+  https://www.npmjs.com/package/d3-zoom/v/3.0.0
+dagre-d3-es@7.0.14 — MIT
+  https://www.npmjs.com/package/dagre-d3-es/v/7.0.14
+data-uri-to-buffer@4.0.1 — MIT
+  https://www.npmjs.com/package/data-uri-to-buffer/v/4.0.1
+dayjs@1.11.23 — MIT
+  https://www.npmjs.com/package/dayjs/v/1.11.23
+debug@4.4.3 — MIT
+  https://www.npmjs.com/package/debug/v/4.4.3
+decode-named-character-reference@1.3.0 — MIT
+  https://www.npmjs.com/package/decode-named-character-reference/v/1.3.0
+delaunator@5.1.0 — ISC
+  https://www.npmjs.com/package/delaunator/v/5.1.0
+dequal@2.0.3 — MIT
+  https://www.npmjs.com/package/dequal/v/2.0.3
+detect-node-es@1.1.0 — MIT
+  https://www.npmjs.com/package/detect-node-es/v/1.1.0
+devlop@1.1.0 — MIT
+  https://www.npmjs.com/package/devlop/v/1.1.0
+diff@8.0.4 — BSD-3-Clause
+  https://www.npmjs.com/package/diff/v/8.0.4
+diff@9.0.0 — BSD-3-Clause
+  https://www.npmjs.com/package/diff/v/9.0.0
+dompurify@3.4.14 — (MPL-2.0 OR Apache-2.0)
+  https://www.npmjs.com/package/dompurify/v/3.4.14
+ecdsa-sig-formatter@1.0.11 — Apache-2.0
+  https://www.npmjs.com/package/ecdsa-sig-formatter/v/1.0.11
+electron@43.4.1 — MIT
+  https://www.npmjs.com/package/electron/v/43.4.1
+entities@6.0.1 — BSD-2-Clause
+  https://www.npmjs.com/package/entities/v/6.0.1
+es-toolkit@1.52.0 — MIT
+  https://www.npmjs.com/package/es-toolkit/v/1.52.0
+esbuild@0.28.1 — MIT
+  https://www.npmjs.com/package/esbuild/v/0.28.1
+escape-string-regexp@5.0.0 — MIT
+  https://www.npmjs.com/package/escape-string-regexp/v/5.0.0
+estree-util-is-identifier-name@3.0.0 — MIT
+  https://www.npmjs.com/package/estree-util-is-identifier-name/v/3.0.0
+extend@3.0.2 — MIT
+  https://www.npmjs.com/package/extend/v/3.0.2
+fast-sha256@1.3.0 — Unlicense
+  https://www.npmjs.com/package/fast-sha256/v/1.3.0
+fast-xml-builder@1.2.0 — MIT
+  https://www.npmjs.com/package/fast-xml-builder/v/1.2.0
+fast-xml-parser@5.7.3 — MIT
+  https://www.npmjs.com/package/fast-xml-parser/v/5.7.3
+fastdom@1.0.12 — MIT
+  https://www.npmjs.com/package/fastdom/v/1.0.12
+fetch-blob@3.2.0 — MIT
+  https://www.npmjs.com/package/fetch-blob/v/3.2.0
+focus-trap@8.2.2 — MIT
+  https://www.npmjs.com/package/focus-trap/v/8.2.2
+formdata-polyfill@4.0.10 — MIT
+  https://www.npmjs.com/package/formdata-polyfill/v/4.0.10
+gaxios@7.1.4 — Apache-2.0
+  https://www.npmjs.com/package/gaxios/v/7.1.4
+gcp-metadata@8.1.2 — Apache-2.0
+  https://www.npmjs.com/package/gcp-metadata/v/8.1.2
+get-east-asian-width@1.6.0 — MIT
+  https://www.npmjs.com/package/get-east-asian-width/v/1.6.0
+get-nonce@1.0.1 — MIT
+  https://www.npmjs.com/package/get-nonce/v/1.0.1
+google-auth-library@10.6.2 — Apache-2.0
+  https://www.npmjs.com/package/google-auth-library/v/10.6.2
+google-logging-utils@1.1.3 — Apache-2.0
+  https://www.npmjs.com/package/google-logging-utils/v/1.1.3
+graceful-fs@4.2.11 — ISC
+  https://www.npmjs.com/package/graceful-fs/v/4.2.11
+grok-mermaid@0.2.2 — Apache-2.0
+  https://www.npmjs.com/package/grok-mermaid/v/0.2.2
+hachure-fill@0.5.2 — MIT
+  https://www.npmjs.com/package/hachure-fill/v/0.5.2
+hast-util-from-dom@5.0.1 — ISC
+  https://www.npmjs.com/package/hast-util-from-dom/v/5.0.1
+hast-util-from-html@2.0.3 — MIT
+  https://www.npmjs.com/package/hast-util-from-html/v/2.0.3
+hast-util-from-html-isomorphic@2.0.0 — MIT
+  https://www.npmjs.com/package/hast-util-from-html-isomorphic/v/2.0.0
+hast-util-from-parse5@8.0.3 — MIT
+  https://www.npmjs.com/package/hast-util-from-parse5/v/8.0.3
+hast-util-is-element@3.0.0 — MIT
+  https://www.npmjs.com/package/hast-util-is-element/v/3.0.0
+hast-util-parse-selector@4.0.0 — MIT
+  https://www.npmjs.com/package/hast-util-parse-selector/v/4.0.0
+hast-util-to-jsx-runtime@2.3.6 — MIT
+  https://www.npmjs.com/package/hast-util-to-jsx-runtime/v/2.3.6
+hast-util-to-text@4.0.2 — MIT
+  https://www.npmjs.com/package/hast-util-to-text/v/4.0.2
+hast-util-whitespace@3.0.0 — MIT
+  https://www.npmjs.com/package/hast-util-whitespace/v/3.0.0
+hastscript@9.0.1 — MIT
+  https://www.npmjs.com/package/hastscript/v/9.0.1
+highlight.js@10.7.3 — BSD-3-Clause
+  https://www.npmjs.com/package/highlight.js/v/10.7.3
+hosted-git-info@9.0.3 — ISC
+  https://www.npmjs.com/package/hosted-git-info/v/9.0.3
+html-url-attributes@3.0.1 — MIT
+  https://www.npmjs.com/package/html-url-attributes/v/3.0.1
+http-proxy-agent@7.0.2 — MIT
+  https://www.npmjs.com/package/http-proxy-agent/v/7.0.2
+https-proxy-agent@7.0.6 — MIT
+  https://www.npmjs.com/package/https-proxy-agent/v/7.0.6
+iconv-lite@0.6.3 — MIT
+  https://www.npmjs.com/package/iconv-lite/v/0.6.3
+idb@8.0.3 — ISC
+  https://www.npmjs.com/package/idb/v/8.0.3
+ignore@7.0.5 — MIT
+  https://www.npmjs.com/package/ignore/v/7.0.5
+import-meta-resolve@4.2.0 — MIT
+  https://www.npmjs.com/package/import-meta-resolve/v/4.2.0
+inline-style-parser@0.2.7 — MIT
+  https://www.npmjs.com/package/inline-style-parser/v/0.2.7
+internmap@1.0.1 — ISC
+  https://www.npmjs.com/package/internmap/v/1.0.1
+is-alphabetical@2.0.1 — MIT
+  https://www.npmjs.com/package/is-alphabetical/v/2.0.1
+is-alphanumerical@2.0.1 — MIT
+  https://www.npmjs.com/package/is-alphanumerical/v/2.0.1
+is-decimal@2.0.1 — MIT
+  https://www.npmjs.com/package/is-decimal/v/2.0.1
+is-hexadecimal@2.0.1 — MIT
+  https://www.npmjs.com/package/is-hexadecimal/v/2.0.1
+is-plain-obj@4.1.0 — MIT
+  https://www.npmjs.com/package/is-plain-obj/v/4.1.0
+isexe@2.0.0 — ISC
+  https://www.npmjs.com/package/isexe/v/2.0.0
+jiti@2.7.0 — MIT
+  https://www.npmjs.com/package/jiti/v/2.7.0
+json-bigint@1.0.0 — MIT
+  https://www.npmjs.com/package/json-bigint/v/1.0.0
+json-schema-to-ts@3.1.1 — MIT
+  https://www.npmjs.com/package/json-schema-to-ts/v/3.1.1
+jsonc-parser@3.3.1 — MIT
+  https://www.npmjs.com/package/jsonc-parser/v/3.3.1
+jwa@2.0.1 — MIT
+  https://www.npmjs.com/package/jwa/v/2.0.1
+jws@4.0.1 — MIT
+  https://www.npmjs.com/package/jws/v/4.0.1
+katex@0.16.47 — MIT
+  https://www.npmjs.com/package/katex/v/0.16.47
+khroma@2.1.0 — SEE PACKAGE
+  https://www.npmjs.com/package/khroma/v/2.1.0
+layout-base@1.0.2 — MIT
+  https://www.npmjs.com/package/layout-base/v/1.0.2
+layout-base@2.0.1 — MIT
+  https://www.npmjs.com/package/layout-base/v/2.0.1
+lodash-es@4.18.1 — MIT
+  https://www.npmjs.com/package/lodash-es/v/4.18.1
+long@5.3.2 — Apache-2.0
+  https://www.npmjs.com/package/long/v/5.3.2
+longest-streak@3.1.0 — MIT
+  https://www.npmjs.com/package/longest-streak/v/3.1.0
+lru-cache@11.4.0 — BlueOak-1.0.0
+  https://www.npmjs.com/package/lru-cache/v/11.4.0
+markdown-table@3.0.4 — MIT
+  https://www.npmjs.com/package/markdown-table/v/3.0.4
+marked@16.4.2 — MIT
+  https://www.npmjs.com/package/marked/v/16.4.2
+marked@18.0.5 — MIT
+  https://www.npmjs.com/package/marked/v/18.0.5
+mdast-util-find-and-replace@3.0.2 — MIT
+  https://www.npmjs.com/package/mdast-util-find-and-replace/v/3.0.2
+mdast-util-from-markdown@2.0.3 — MIT
+  https://www.npmjs.com/package/mdast-util-from-markdown/v/2.0.3
+mdast-util-gfm@3.1.0 — MIT
+  https://www.npmjs.com/package/mdast-util-gfm/v/3.1.0
+mdast-util-gfm-autolink-literal@2.0.1 — MIT
+  https://www.npmjs.com/package/mdast-util-gfm-autolink-literal/v/2.0.1
+mdast-util-gfm-footnote@2.1.0 — MIT
+  https://www.npmjs.com/package/mdast-util-gfm-footnote/v/2.1.0
+mdast-util-gfm-strikethrough@2.0.0 — MIT
+  https://www.npmjs.com/package/mdast-util-gfm-strikethrough/v/2.0.0
+mdast-util-gfm-table@2.0.0 — MIT
+  https://www.npmjs.com/package/mdast-util-gfm-table/v/2.0.0
+mdast-util-gfm-task-list-item@2.0.0 — MIT
+  https://www.npmjs.com/package/mdast-util-gfm-task-list-item/v/2.0.0
+mdast-util-math@3.0.0 — MIT
+  https://www.npmjs.com/package/mdast-util-math/v/3.0.0
+mdast-util-mdx-expression@2.0.1 — MIT
+  https://www.npmjs.com/package/mdast-util-mdx-expression/v/2.0.1
+mdast-util-mdx-jsx@3.2.0 — MIT
+  https://www.npmjs.com/package/mdast-util-mdx-jsx/v/3.2.0
+mdast-util-mdxjs-esm@2.0.1 — MIT
+  https://www.npmjs.com/package/mdast-util-mdxjs-esm/v/2.0.1
+mdast-util-phrasing@4.1.0 — MIT
+  https://www.npmjs.com/package/mdast-util-phrasing/v/4.1.0
+mdast-util-to-hast@13.2.1 — MIT
+  https://www.npmjs.com/package/mdast-util-to-hast/v/13.2.1
+mdast-util-to-markdown@2.1.2 — MIT
+  https://www.npmjs.com/package/mdast-util-to-markdown/v/2.1.2
+mdast-util-to-string@4.0.0 — MIT
+  https://www.npmjs.com/package/mdast-util-to-string/v/4.0.0
+mermaid@11.17.2 — MIT
+  https://www.npmjs.com/package/mermaid/v/11.17.2
+micromark@4.0.2 — MIT
+  https://www.npmjs.com/package/micromark/v/4.0.2
+micromark-core-commonmark@2.0.3 — MIT
+  https://www.npmjs.com/package/micromark-core-commonmark/v/2.0.3
+micromark-extension-gfm@3.0.0 — MIT
+  https://www.npmjs.com/package/micromark-extension-gfm/v/3.0.0
+micromark-extension-gfm-autolink-literal@2.1.0 — MIT
+  https://www.npmjs.com/package/micromark-extension-gfm-autolink-literal/v/2.1.0
+micromark-extension-gfm-footnote@2.1.0 — MIT
+  https://www.npmjs.com/package/micromark-extension-gfm-footnote/v/2.1.0
+micromark-extension-gfm-strikethrough@2.1.0 — MIT
+  https://www.npmjs.com/package/micromark-extension-gfm-strikethrough/v/2.1.0
+micromark-extension-gfm-table@2.1.1 — MIT
+  https://www.npmjs.com/package/micromark-extension-gfm-table/v/2.1.1
+micromark-extension-gfm-tagfilter@2.0.0 — MIT
+  https://www.npmjs.com/package/micromark-extension-gfm-tagfilter/v/2.0.0
+micromark-extension-gfm-task-list-item@2.1.0 — MIT
+  https://www.npmjs.com/package/micromark-extension-gfm-task-list-item/v/2.1.0
+micromark-extension-math@3.1.0 — MIT
+  https://www.npmjs.com/package/micromark-extension-math/v/3.1.0
+micromark-factory-destination@2.0.1 — MIT
+  https://www.npmjs.com/package/micromark-factory-destination/v/2.0.1
+micromark-factory-label@2.0.1 — MIT
+  https://www.npmjs.com/package/micromark-factory-label/v/2.0.1
+micromark-factory-space@2.0.1 — MIT
+  https://www.npmjs.com/package/micromark-factory-space/v/2.0.1
+micromark-factory-title@2.0.1 — MIT
+  https://www.npmjs.com/package/micromark-factory-title/v/2.0.1
+micromark-factory-whitespace@2.0.1 — MIT
+  https://www.npmjs.com/package/micromark-factory-whitespace/v/2.0.1
+micromark-util-character@2.1.1 — MIT
+  https://www.npmjs.com/package/micromark-util-character/v/2.1.1
+micromark-util-chunked@2.0.1 — MIT
+  https://www.npmjs.com/package/micromark-util-chunked/v/2.0.1
+micromark-util-classify-character@2.0.1 — MIT
+  https://www.npmjs.com/package/micromark-util-classify-character/v/2.0.1
+micromark-util-combine-extensions@2.0.1 — MIT
+  https://www.npmjs.com/package/micromark-util-combine-extensions/v/2.0.1
+micromark-util-decode-numeric-character-reference@2.0.2 — MIT
+  https://www.npmjs.com/package/micromark-util-decode-numeric-character-reference/v/2.0.2
+micromark-util-decode-string@2.0.1 — MIT
+  https://www.npmjs.com/package/micromark-util-decode-string/v/2.0.1
+micromark-util-encode@2.0.1 — MIT
+  https://www.npmjs.com/package/micromark-util-encode/v/2.0.1
+micromark-util-html-tag-name@2.0.1 — MIT
+  https://www.npmjs.com/package/micromark-util-html-tag-name/v/2.0.1
+micromark-util-normalize-identifier@2.0.1 — MIT
+  https://www.npmjs.com/package/micromark-util-normalize-identifier/v/2.0.1
+micromark-util-resolve-all@2.0.1 — MIT
+  https://www.npmjs.com/package/micromark-util-resolve-all/v/2.0.1
+micromark-util-sanitize-uri@2.0.1 — MIT
+  https://www.npmjs.com/package/micromark-util-sanitize-uri/v/2.0.1
+micromark-util-subtokenize@2.1.0 — MIT
+  https://www.npmjs.com/package/micromark-util-subtokenize/v/2.1.0
+micromark-util-symbol@2.0.1 — MIT
+  https://www.npmjs.com/package/micromark-util-symbol/v/2.0.1
+micromark-util-types@2.0.2 — MIT
+  https://www.npmjs.com/package/micromark-util-types/v/2.0.2
+minimatch@10.2.5 — BlueOak-1.0.0
+  https://www.npmjs.com/package/minimatch/v/10.2.5
+ms@2.1.3 — MIT
+  https://www.npmjs.com/package/ms/v/2.1.3
+node-addon-api@8.9.2 — MIT
+  https://www.npmjs.com/package/node-addon-api/v/8.9.2
+node-domexception@1.0.0 — MIT
+  https://www.npmjs.com/package/node-domexception/v/1.0.0
+node-fetch@3.3.2 — MIT
+  https://www.npmjs.com/package/node-fetch/v/3.3.2
+node-gyp-build@4.8.4 — MIT
+  https://www.npmjs.com/package/node-gyp-build/v/4.8.4
+openai@6.40.0 — Apache-2.0
+  https://www.npmjs.com/package/openai/v/6.40.0
+p-retry@4.6.2 — MIT
+  https://www.npmjs.com/package/p-retry/v/4.6.2
+package-manager-detector@1.8.0 — MIT
+  https://www.npmjs.com/package/package-manager-detector/v/1.8.0
+parse-entities@4.0.2 — MIT
+  https://www.npmjs.com/package/parse-entities/v/4.0.2
+parse5@7.3.0 — MIT
+  https://www.npmjs.com/package/parse5/v/7.3.0
+partial-json@0.1.7 — MIT
+  https://www.npmjs.com/package/partial-json/v/0.1.7
+path-data-parser@0.1.0 — MIT
+  https://www.npmjs.com/package/path-data-parser/v/0.1.0
+path-expression-matcher@1.5.0 — MIT
+  https://www.npmjs.com/package/path-expression-matcher/v/1.5.0
+path-key@3.1.1 — MIT
+  https://www.npmjs.com/package/path-key/v/3.1.1
+points-on-curve@0.2.0 — MIT
+  https://www.npmjs.com/package/points-on-curve/v/0.2.0
+points-on-path@0.2.1 — MIT
+  https://www.npmjs.com/package/points-on-path/v/0.2.1
+proper-lockfile@4.1.2 — MIT
+  https://www.npmjs.com/package/proper-lockfile/v/4.1.2
+property-information@7.2.0 — MIT
+  https://www.npmjs.com/package/property-information/v/7.2.0
+protobufjs@7.6.5 — BSD-3-Clause
+  https://www.npmjs.com/package/protobufjs/v/7.6.5
+react@19.2.8 — MIT
+  https://www.npmjs.com/package/react/v/19.2.8
+react-dom@19.2.8 — MIT
+  https://www.npmjs.com/package/react-dom/v/19.2.8
+react-markdown@10.1.0 — MIT
+  https://www.npmjs.com/package/react-markdown/v/10.1.0
+react-remove-scroll@2.7.2 — MIT
+  https://www.npmjs.com/package/react-remove-scroll/v/2.7.2
+react-remove-scroll-bar@2.3.8 — MIT
+  https://www.npmjs.com/package/react-remove-scroll-bar/v/2.3.8
+react-simple-code-editor@0.14.1 — MIT
+  https://www.npmjs.com/package/react-simple-code-editor/v/0.14.1
+react-style-singleton@2.2.3 — MIT
+  https://www.npmjs.com/package/react-style-singleton/v/2.2.3
+rehype-katex@7.0.1 — MIT
+  https://www.npmjs.com/package/rehype-katex/v/7.0.1
+remark-gfm@4.0.1 — MIT
+  https://www.npmjs.com/package/remark-gfm/v/4.0.1
+remark-math@6.0.0 — MIT
+  https://www.npmjs.com/package/remark-math/v/6.0.0
+remark-parse@11.0.0 — MIT
+  https://www.npmjs.com/package/remark-parse/v/11.0.0
+remark-rehype@11.1.2 — MIT
+  https://www.npmjs.com/package/remark-rehype/v/11.1.2
+remark-stringify@11.0.0 — MIT
+  https://www.npmjs.com/package/remark-stringify/v/11.0.0
+retry@0.12.0 — MIT
+  https://www.npmjs.com/package/retry/v/0.12.0
+retry@0.13.1 — MIT
+  https://www.npmjs.com/package/retry/v/0.13.1
+robust-predicates@3.0.3 — Unlicense
+  https://www.npmjs.com/package/robust-predicates/v/3.0.3
+roughjs@4.6.6 — MIT
+  https://www.npmjs.com/package/roughjs/v/4.6.6
+rw@1.3.3 — BSD-3-Clause
+  https://www.npmjs.com/package/rw/v/1.3.3
+safe-buffer@5.2.1 — MIT
+  https://www.npmjs.com/package/safe-buffer/v/5.2.1
+safer-buffer@2.1.2 — MIT
+  https://www.npmjs.com/package/safer-buffer/v/2.1.2
+scheduler@0.27.0 — MIT
+  https://www.npmjs.com/package/scheduler/v/0.27.0
+semver@7.8.0 — ISC
+  https://www.npmjs.com/package/semver/v/7.8.0
+shebang-command@2.0.0 — MIT
+  https://www.npmjs.com/package/shebang-command/v/2.0.0
+shebang-regex@3.0.0 — MIT
+  https://www.npmjs.com/package/shebang-regex/v/3.0.0
+signal-exit@3.0.7 — ISC
+  https://www.npmjs.com/package/signal-exit/v/3.0.7
+space-separated-tokens@2.0.2 — MIT
+  https://www.npmjs.com/package/space-separated-tokens/v/2.0.2
+standardwebhooks@1.1.1 — MIT
+  https://www.npmjs.com/package/standardwebhooks/v/1.1.1
+strictdom@1.0.1 — MIT
+  https://www.npmjs.com/package/strictdom/v/1.0.1
+stringify-entities@4.0.4 — MIT
+  https://www.npmjs.com/package/stringify-entities/v/4.0.4
+strnum@2.3.0 — MIT
+  https://www.npmjs.com/package/strnum/v/2.3.0
+style-mod@4.1.3 — MIT
+  https://www.npmjs.com/package/style-mod/v/4.1.3
+style-to-js@1.1.21 — MIT
+  https://www.npmjs.com/package/style-to-js/v/1.1.21
+style-to-object@1.0.14 — MIT
+  https://www.npmjs.com/package/style-to-object/v/1.0.14
+stylis@4.4.0 — MIT
+  https://www.npmjs.com/package/stylis/v/4.4.0
+tabbable@6.5.0 — MIT
+  https://www.npmjs.com/package/tabbable/v/6.5.0
+tinyexec@1.3.0 — MIT
+  https://www.npmjs.com/package/tinyexec/v/1.3.0
+tree-sitter-bash@0.25.1 — MIT
+  https://www.npmjs.com/package/tree-sitter-bash/v/0.25.1
+trim-lines@3.0.1 — MIT
+  https://www.npmjs.com/package/trim-lines/v/3.0.1
+trough@2.2.0 — MIT
+  https://www.npmjs.com/package/trough/v/2.2.0
+ts-algebra@2.0.0 — MIT
+  https://www.npmjs.com/package/ts-algebra/v/2.0.0
+ts-dedent@2.3.0 — MIT
+  https://www.npmjs.com/package/ts-dedent/v/2.3.0
+tslib@2.8.1 — 0BSD
+  https://www.npmjs.com/package/tslib/v/2.8.1
+typebox@1.3.7 — MIT
+  https://www.npmjs.com/package/typebox/v/1.3.7
+undici@8.9.0 — MIT
+  https://www.npmjs.com/package/undici/v/8.9.0
+undici-types@6.21.0 — MIT
+  https://www.npmjs.com/package/undici-types/v/6.21.0
+unified@11.0.5 — MIT
+  https://www.npmjs.com/package/unified/v/11.0.5
+unist-util-find-after@5.0.0 — MIT
+  https://www.npmjs.com/package/unist-util-find-after/v/5.0.0
+unist-util-is@6.0.1 — MIT
+  https://www.npmjs.com/package/unist-util-is/v/6.0.1
+unist-util-position@5.0.0 — MIT
+  https://www.npmjs.com/package/unist-util-position/v/5.0.0
+unist-util-remove-position@5.0.0 — MIT
+  https://www.npmjs.com/package/unist-util-remove-position/v/5.0.0
+unist-util-stringify-position@4.0.0 — MIT
+  https://www.npmjs.com/package/unist-util-stringify-position/v/4.0.0
+unist-util-visit@5.1.0 — MIT
+  https://www.npmjs.com/package/unist-util-visit/v/5.1.0
+unist-util-visit-parents@6.0.2 — MIT
+  https://www.npmjs.com/package/unist-util-visit-parents/v/6.0.2
+use-callback-ref@1.3.3 — MIT
+  https://www.npmjs.com/package/use-callback-ref/v/1.3.3
+use-sidecar@1.1.3 — MIT
+  https://www.npmjs.com/package/use-sidecar/v/1.1.3
+uuid@14.0.2 — MIT
+  https://www.npmjs.com/package/uuid/v/14.0.2
+vfile@6.0.3 — MIT
+  https://www.npmjs.com/package/vfile/v/6.0.3
+vfile-location@5.0.3 — MIT
+  https://www.npmjs.com/package/vfile-location/v/5.0.3
+vfile-message@4.0.3 — MIT
+  https://www.npmjs.com/package/vfile-message/v/4.0.3
+w3c-keyname@2.2.8 — MIT
+  https://www.npmjs.com/package/w3c-keyname/v/2.2.8
+web-namespaces@2.0.1 — MIT
+  https://www.npmjs.com/package/web-namespaces/v/2.0.1
+web-streams-polyfill@3.3.3 — MIT
+  https://www.npmjs.com/package/web-streams-polyfill/v/3.3.3
+web-tree-sitter@0.26.13 — MIT
+  https://www.npmjs.com/package/web-tree-sitter/v/0.26.13
+which@2.0.2 — ISC
+  https://www.npmjs.com/package/which/v/2.0.2
+ws@8.21.0 — MIT
+  https://www.npmjs.com/package/ws/v/8.21.0
+xml-naming@0.1.0 — MIT
+  https://www.npmjs.com/package/xml-naming/v/0.1.0
+yaml@2.9.0 — ISC
+  https://www.npmjs.com/package/yaml/v/2.9.0
+zod@4.5.2 — MIT
+  https://www.npmjs.com/package/zod/v/4.5.2
+zwitch@2.0.4 — MIT
+  https://www.npmjs.com/package/zwitch/v/2.0.4

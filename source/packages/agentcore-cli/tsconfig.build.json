@@ -1,0 +1,20 @@
+{
+	"extends": "../../tsconfig.base.json",
+	"compilerOptions": {
+		"outDir": "./dist",
+		"paths": {
+			"@pfsaa/chord": ["../chord/dist/index.d.ts"],
+			"@pfsaa/chord/bundler": ["../chord/dist/bundler.d.ts"],
+			"@pfsaa/chord/node": ["../chord/dist/node.d.ts"],
+			"@pfsaa/agent-core": ["../agent-core/dist/index.d.ts"],
+			"@pfsaa/agent-core/*": ["../agent-core/dist/*.d.ts"],
+			"@pfsaa/ai": ["../ai/dist/index.d.ts"],
+			"@pfsaa/ai/*": ["../ai/dist/*.d.ts", "../ai/dist/providers/*.d.ts"],
+			"@pfsaa/tui": ["../tui/dist/index.d.ts"],
+			"@pfsaa/tui/*": ["../tui/dist/*.d.ts", "../tui/dist/components/*.d.ts"]
+		},
+		"rootDir": "./src"
+	},
+	"include": ["src/**/*.ts", "src/**/*.d.ts"],
+	"exclude": ["node_modules", "dist", "src/client", "src/experimental", "src/cli/experimental"]
+}

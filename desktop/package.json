@@ -1,0 +1,76 @@
+{
+  "name": "pfsaa-desktop",
+  "productName": "PFSAA",
+  "private": true,
+  "bin": {
+    "pfsaa-cli": "packages/pfsaa-host/dist/cli.js"
+  },
+  "version": "0.2.0",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "AtlasRoam"
+  },
+  "main": "apps/desktop/dist/main/index.js",
+  "description": "A desktop interface for power-flow solving and adjustment.",
+  "keywords": [
+    "pfsaa",
+    "agentcore",
+    "power-flow",
+    "electron",
+    "desktop",
+    "ai"
+  ],
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "precli": "npm --workspace @pfsaa/agentcore-adapter run build && npm --workspace @pfsaa/pfsaa-host run build",
+    "cli": "node packages/pfsaa-host/dist/cli.js",
+    "dev": "npm --workspace @pfsaa/desktop run dev",
+    "build": "npm --workspace @pfsaa/desktop run build",
+    "lint": "eslint .",
+    "test:renderer": "npm --workspace @pfsaa/desktop run test:renderer",
+    "typecheck": "npm --workspace @pfsaa/contracts run typecheck && npm --workspace @pfsaa/domain run typecheck && npm --workspace @pfsaa/agentcore-adapter run typecheck && npm --workspace @pfsaa/permission-engine run typecheck && npm --workspace @pfsaa/pfsaa-host run typecheck && npm --workspace @pfsaa/i18n run typecheck && npm --workspace @pfsaa/ui-system run typecheck && npm --workspace @pfsaa/desktop run typecheck",
+    "package:win": "npm run package:win:x64",
+    "package:win:x64": "npm run notices:check && npm run build && npm exec -- electron-builder --config electron-builder.config.cjs --win nsis --x64 && npm run verify:package -- release/win-unpacked && npm run smoke:package -- release/win-unpacked",
+    "package:mac": "npm run notices:check && npm run build && npm exec -- electron-builder --config electron-builder.config.cjs --mac dmg && npm run verify:package -- release && npm run smoke:package -- release",
+    "package:mac:arm64": "npm run notices:check && npm run build && npm exec -- electron-builder --config electron-builder.config.cjs --mac dmg --arm64 && npm run verify:package -- release && npm run smoke:package -- release",
+    "package:mac:x64": "npm run notices:check && npm run build && npm exec -- electron-builder --config electron-builder.config.cjs --mac dmg --x64 && npm run verify:package -- release && npm run smoke:package -- release",
+    "notices:generate": "node scripts/generate-third-party-notices.mjs",
+    "notices:check": "node scripts/generate-third-party-notices.mjs --check",
+    "release:check": "node scripts/verify-release-version.mjs",
+    "verify:package": "node scripts/verify-package-contents.mjs",
+    "smoke:runtime": "node scripts/smoke-source-runtime.mjs && node scripts/smoke-session-isolation.mjs",
+    "test:pfsaa": "npm --workspace @pfsaa/desktop run prebuild && npm run typecheck && tsc -p apps/desktop/tsconfig.json && node --test scripts/pfsaa-runtime.test.mjs",
+    "smoke:pfsaa": "node --test scripts/smoke-pfsaa-host.test.mjs",
+    "smoke:cli": "node scripts/smoke-cli.mjs",
+    "acceptance:network": "npm run build && node scripts/network-acceptance.mjs",
+    "smoke:package": "node scripts/smoke-packaged-runtime.mjs",
+    "sbom:package": "node scripts/generate-packaged-sbom.mjs"
+  },
+  "engines": {
+    "node": ">=22.19.0"
+  },
+  "overrides": {
+    "nanoid": "3.3.18"
+  },
+  "dependencies": {
+    "@earendil-works/pi-coding-agent": "0.85.1",
+    "@gotgenes/pi-permission-system": "^31.1.1",
+    "@pfsaa/contracts": "0.2.0",
+    "@pfsaa/domain": "0.2.0",
+    "@pfsaa/i18n": "0.2.0",
+    "@pfsaa/permission-engine": "0.2.0",
+    "@pfsaa/agentcore-adapter": "0.2.0"
+  },
+  "devDependencies": {
+    "@electron/asar": "^3.4.1",
+    "@eslint/js": "^10.0.1",
+    "electron-builder": "^26.15.3",
+    "eslint": "^10.8.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.9.0",
+    "typescript-eslint": "^8.66.0"
+  }
+}

@@ -1,0 +1,13 @@
+/runtime/
+/desktop/runtime/
+/source/runtime/
+/.agent/
+/.agentcore/
+/.zcf/
+/source/.agentcore/
+**/node_modules/
+**/__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example

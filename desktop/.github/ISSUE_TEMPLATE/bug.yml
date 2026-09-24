@@ -1,0 +1,55 @@
+name: Bug report
+description: Report reproducible incorrect behavior in PFSAA.
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Do not report security vulnerabilities here. Use the private security reporting link instead.
+  - type: input
+    id: version
+    attributes:
+      label: PFSAA version
+      placeholder: v0.1.0 or commit SHA
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - macOS Apple Silicon
+        - macOS Intel
+        - Windows x64
+        - Linux source build
+        - Other source build
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Include the expected behavior and the actual behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      placeholder: "1. Open…\n2. Select…\n3. Observe…"
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Relevant logs or screenshots
+      description: Remove API keys, OAuth tokens, project secrets, and private session content.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Safety checks
+      options:
+        - label: I removed credentials and private project/session data from this report.
+          required: true
+        - label: This is not a security vulnerability.
+          required: true

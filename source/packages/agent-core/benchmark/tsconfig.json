@@ -1,0 +1,12 @@
+{
+	"extends": "../../../tsconfig.base.json",
+	"compilerOptions": {
+		"baseUrl": "../../..",
+		"noEmit": true,
+		"paths": {
+			"@pfsaa/ai": ["packages/ai/src/index.ts"],
+			"@pfsaa/ai/*": ["packages/ai/src/*"]
+		}
+	},
+	"include": ["./**/*.ts", "../src/**/*.ts"]
+}

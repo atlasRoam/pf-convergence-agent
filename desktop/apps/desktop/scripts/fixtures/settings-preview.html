@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head><base href="/"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>PFSAA settings interaction fixture</title></head>
+<body><div id="root"></div>
+<script type="module">
+  // Dev-only renderer fixture. No credential storage, model requests, or real mutations.
+  // Start the desktop Vite server and open /scripts/fixtures/settings-preview.html.
+  const params = new URLSearchParams(location.search);
+  localStorage.setItem("pfsaa.language", params.get("language") ?? "zh");
+  localStorage.setItem("pfsaa.theme", params.get("theme") ?? "light");
+  Object.defineProperty(navigator, "platform", { value: params.get("platform") === "windows" ? "Win32" : "MacIntel" });
+  const noop = async () => undefined;
+  const project = { id: "fixture", name: "PFSAA", cwd: "/fixture/PFSAA", taskCount: 1 };
+  const task = { id: "fixture-session", projectId: project.id, title: "Settings interaction preview", state: "idle", createdAt: "2026-08-30T00:00:00Z", updatedAt: "2026-08-30T00:00:00Z" };
+  const reviewPatch = `--- src/example.ts\n+++ src/example.ts\n@@ -1,4 +1,4 @@\n-export const title = "Before";\n+export const title = "After";\n \n export function greet(name: string) {\n   return \`Hello, \${name}\`;\n@@ -9,3 +9,3 @@\n export const enabled = true;\n-export const count = 1;\n+export const count = 2;\n export const done = false;\n`;
+  let fixtureReview = { schemaVersion: 2, id: "fixture-review", state: "completed", outcome: "succeeded", startedAt: Date.now() - 12_000, endedAt: Date.now() - 2_000, additions: 2, deletions: 2, truncated: false, fileCountTruncated: false, files: [{ path: "src/example.ts", status: "modified", additions: 2, deletions: 2, patch: reviewPatch, patchAvailable: true, binary: false, truncated: false }] };
+  const reviewCurrent = `export const title = "After";\n\nexport function greet(name: string) {\n  return \`Hello, \${name}\`;\n}\n\nexport const version = "0.1.5";\nexport const ready = true;\nexport const enabled = true;\nexport const count = 2;\nexport const done = false;\n`;
+  const reviewOriginal = reviewCurrent.replace('title = "After"', 'title = "Before"').replace("count = 2", "count = 1");
+  const model = { id: "fixture-model", name: "Preview model", providerId: "fixture-provider", providerName: "Preview provider", authConfigured: true, thinkingLevels: ["off", "medium"], contextWindow: 100000, reasoning: true };
+  const { fallbackSlashCommands } = await import("/src/renderer/agentcore-capabilities.ts");
+  const capabilities = { model, thinkingLevel: "medium", thinkingLevels: model.thinkingLevels, slashCommands: [...fallbackSlashCommands, { name: "fixture-extension", source: "extension", description: "Test extension dialog" }], prompts: [{ name: "review-template", description: "Review with a prompt template" }], skills: [{ name: "skill:review", description: "Review skill" }] };
+  const settings = { defaultProvider: model.providerId, defaultModel: model.id, defaultThinkingLevel: "medium", transport: "auto", compactionEnabled: true, steeringMode: "one-at-a-time", followUpMode: "one-at-a-time", branchSummaryReserveTokens: 16384, branchSummarySkipPrompt: false };
+  window.pfsaa = {
+    app: { setLanguage: noop, setWindowTheme: noop, setConfirmClose: noop, popupMenu: async ({ menu }) => {
+      if (params.has("menuError")) throw new Error("Native menu unavailable in fixture");
+      // Show the requested native menu ID without emulating Electron menu roles.
+      const result = document.getElementById("fixture-menu-result") ?? document.body.appendChild(Object.assign(document.createElement("output"), { id: "fixture-menu-result" }));
+      result.style.cssText = "position:fixed;bottom:0;right:0;z-index:9999";
+      result.textContent = `Native menu request: ${menu}`;
+    } },
+    runtime: { status: async () => "connected" },
+    projects: { list: async () => params.has("empty") ? [] : [project] },
+    sessions: {
+      list: async () => [task], capabilities: async () => capabilities, messages: async () => [], runMetadata: async () => [],
+      changeReviews: async () => ({ reviews: params.has("review") ? [fixtureReview] : [], availability: "available" }),
+      changeReview: async () => params.has("review") ? fixtureReview : null,
+      resolveChangeReviewHunk: async (_taskId, _reviewId, _filePath, hunkIndex, action) => {
+        const file = fixtureReview.files[0];
+        file.hunkResolutions = [...(file.hunkResolutions ?? []), { hunkIndex, action: action === "accept" ? "accepted" : "reverted", resolvedAt: Date.now() }];
+        fixtureReview = { ...fixtureReview, files: [{ ...file }] };
+        return fixtureReview;
+      },
+      changeReviewMergeSource: async () => ({ reviewId: fixtureReview.id, filePath: "src/example.ts", originalContent: reviewOriginal, currentContent: reviewCurrent, currentRevision: `sha256:${"a".repeat(64)}`, unresolvedHunks: [0, 1], originalExists: true, currentExists: true, lineEnding: "lf" }),
+      applyChangeReviewMerge: async () => {
+        fixtureReview = { ...fixtureReview, files: [{ ...fixtureReview.files[0], hunkResolutions: [0, 1].map((hunkIndex) => ({ hunkIndex, action: "merged", resolvedAt: Date.now() })) }] };
+        return fixtureReview;
+      },
+      changelog: async () => "Preview changelog",
+    },
+    workspace: { snapshot: async () => ({ files: [], changes: [] }) },
+    models: { list: async () => [model] },
+    settings: { get: async () => { if (params.has("error")) throw new Error("Fixture: PfsaaHost unavailable. Retry loading settings."); return settings; }, update: async (value) => value },
+    permissions: { status: async () => ({ mode: "ask", source: "pi-permission-system" }) },
+    input: { keybindings: async () => ({ bindings: [] }) },
+    extensions: { syncEditor: noop },
+    agent: { queue: async () => ({ steering: [], followUp: [], steeringMode: "one-at-a-time", followUpMode: "one-at-a-time" }) },
+    providers: { list: async () => ["OpenAI Codex", "Amazon Bedrock", "Anthropic", "Azure OpenAI", "Google", "Mistral", "OpenRouter"].map((name, index) => ({ id: `fixture-${index}`, name, modelCount: 7 + index, authState: index === 0 ? "configured" : "missing", authSource: index === 0 ? "stored" : "none", hasStoredCredential: index === 0, authMethods: ["api-key", "oauth"] })) },
+    packages: { list: async () => [] },
+    events: { subscribe: () => () => undefined },
+  };
+  await import("/src/renderer/main.tsx");
+</script></body></html>

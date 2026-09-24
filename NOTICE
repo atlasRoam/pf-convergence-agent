@@ -1,0 +1,9 @@
+PFSAA / Power-Flow Solving and Adjustment Agent
+Copyright 2026 AtlasRoam
+
+AtlasRoam additions are distributed under the Apache License, Version 2.0.
+Portions of the AgentCore source derive from Pi and retain their original
+MIT license and author notices in source/LICENSE and relevant package licenses.
+Portions of the desktop application retain the original MIT license and author
+notice in desktop/LICENSE.upstream-MIT. Third-party dependencies retain their
+own licenses; see desktop/THIRD_PARTY_NOTICES.txt.

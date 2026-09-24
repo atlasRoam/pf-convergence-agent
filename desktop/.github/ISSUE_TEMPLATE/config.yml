@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Private security report
+    url: https://github.com/atlasRoam/pf-convergence-agent/security/advisories/new
+    about: Report vulnerabilities privately; never include them in a public issue.
+  - name: AgentCore upstream
+    url: https://github.com/earendil-works/pi/issues
+    about: Request capabilities that do not yet exist in the AgentCore CLI or SDK.

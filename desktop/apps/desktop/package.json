@@ -1,0 +1,51 @@
+{
+  "name": "@pfsaa/desktop",
+  "version": "0.2.0",
+  "private": true,
+  "main": "dist/main/index.js",
+  "scripts": {
+    "build:native": "node scripts/build-native.mjs",
+    "predev": "npm --workspace @pfsaa/contracts run build && npm --workspace @pfsaa/domain run build && npm --workspace @pfsaa/agentcore-adapter run build && npm --workspace @pfsaa/permission-engine run build && npm --workspace @pfsaa/pfsaa-host run build && npm --workspace @pfsaa/i18n run build && npm --workspace @pfsaa/ui-system run build && npm run build:native && tsc -p tsconfig.json",
+    "dev": "concurrently -k \"vite --config vite.config.mts\" \"wait-on http://localhost:5173 && cross-env VITE_DEV_SERVER_URL=http://localhost:5173 electron .\"",
+    "prebuild": "npm --workspace @pfsaa/contracts run build && npm --workspace @pfsaa/domain run build && npm --workspace @pfsaa/agentcore-adapter run build && npm --workspace @pfsaa/permission-engine run build && npm --workspace @pfsaa/pfsaa-host run build && npm --workspace @pfsaa/i18n run build && npm --workspace @pfsaa/ui-system run build",
+    "build": "npm run build:native && tsc -p tsconfig.json && vite build --config vite.config.mts",
+    "pretest:renderer": "npm run prebuild",
+    "test:renderer": "tsc -p tsconfig.json && node --test scripts/renderer-regressions.test.cjs scripts/behavior-regressions.test.cjs scripts/dom-regressions.test.cjs",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@codemirror/merge": "^6.12.2",
+    "@codemirror/state": "^6.7.4",
+    "@gotgenes/pi-permission-system": "^31.1.1",
+    "@pfsaa/contracts": "0.2.0",
+    "@pfsaa/domain": "0.2.0",
+    "@pfsaa/i18n": "0.2.0",
+    "@pfsaa/ui-system": "0.2.0",
+    "@xterm/addon-fit": "^0.11.0",
+    "@xterm/xterm": "^6.0.0",
+    "cmdk": "^1.1.1",
+    "codemirror": "^6.0.2",
+    "idb": "^8.0.3",
+    "katex": "^0.16.11",
+    "mermaid": "^11.4.1",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-markdown": "^10.1.0",
+    "react-simple-code-editor": "^0.14.1",
+    "rehype-katex": "^7.0.1",
+    "remark-gfm": "^4.0.1",
+    "remark-math": "^6.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "@vitejs/plugin-react": "^6.0.5",
+    "concurrently": "^10.0.4",
+    "cross-env": "^10.1.0",
+    "electron": "^43.2.0",
+    "happy-dom": "^20.11.15",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.0",
+    "wait-on": "^9.1.0"
+  }
+}

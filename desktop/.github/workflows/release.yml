@@ -1,0 +1,239 @@
+name: Release installers
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing release tag to rebuild
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}
+  cancel-in-progress: false
+
+env:
+  RELEASE_TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}
+
+jobs:
+  verify:
+    name: Verify release source
+    runs-on: ubuntu-latest
+    outputs:
+      release_sha: ${{ steps.release-source.outputs.sha }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: refs/tags/${{ env.RELEASE_TAG }}
+          fetch-depth: 0
+      - name: Verify immutable release source
+        id: release-source
+        shell: bash
+        run: |
+          tag_ref="refs/tags/$RELEASE_TAG"
+          git show-ref --verify --quiet "$tag_ref" || {
+            echo "Release source must be an existing tag: $RELEASE_TAG" >&2
+            exit 1
+          }
+          release_sha="$(git rev-list -n 1 "$tag_ref")"
+          git fetch --no-tags origin main:refs/remotes/origin/main
+          git merge-base --is-ancestor "$release_sha" refs/remotes/origin/main || {
+            echo "Release tag must point to a commit contained in main" >&2
+            exit 1
+          }
+          echo "sha=$release_sha" >> "$GITHUB_OUTPUT"
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 24
+          cache: npm
+      - name: Verify tag and package version
+        run: npm run release:check -- "$RELEASE_TAG"
+      - name: Install dependencies
+        run: npm ci
+      - name: Verify third-party notices
+        run: npm run notices:check
+      - name: Lint
+        run: npm run lint
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Renderer and compatibility regressions
+        run: npm run test:renderer
+      - name: Production build
+        run: npm run build
+      - name: Smoke PfsaaHost IPC
+        run: npm run smoke:runtime
+
+  macos:
+    name: Package ${{ matrix.label }}
+    needs: verify
+    runs-on: ${{ matrix.runner }}
+    environment: release-signing
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: macOS arm64
+            runner: macos-15
+            arch: arm64
+            artifact_name: pfsaa-macos-arm64
+            artifact_path: release/PFSAA-*-macos-arm64.dmg
+            sbom_path: release/pfsaa-sbom-macos-arm64.cdx.json
+          - label: macOS x64
+            runner: macos-15-intel
+            arch: x64
+            artifact_name: pfsaa-macos-x64
+            artifact_path: release/PFSAA-*-macos-x64.dmg
+            sbom_path: release/pfsaa-sbom-macos-x64.cdx.json
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ needs.verify.outputs.release_sha }}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Build application
+        run: npm run build
+      - name: Build installer
+        shell: bash
+        env:
+          CSC_LINK: ${{ secrets.MAC_CSC_LINK }}
+          CSC_KEY_PASSWORD: ${{ secrets.MAC_CSC_KEY_PASSWORD }}
+          APPLE_API_KEY_BASE64: ${{ secrets.APPLE_API_KEY }}
+          APPLE_API_KEY_ID: ${{ secrets.APPLE_API_KEY_ID }}
+          APPLE_API_ISSUER: ${{ secrets.APPLE_API_ISSUER }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          PFSAA_FORCE_CODE_SIGNING: ${{ secrets.MAC_CSC_LINK != '' }}
+        run: |
+          if [ -n "$APPLE_API_KEY_BASE64" ]; then
+            key_path="$RUNNER_TEMP/AuthKey_${APPLE_API_KEY_ID}.p8"
+            trap 'rm -f "$key_path"' EXIT
+            printf '%s' "$APPLE_API_KEY_BASE64" | base64 -D > "$key_path"
+            chmod 600 "$key_path"
+            export APPLE_API_KEY="$key_path"
+          fi
+          ./node_modules/.bin/electron-builder \
+            --config electron-builder.config.cjs \
+            --mac dmg \
+            --${{ matrix.arch }} \
+            --publish never
+      - name: Verify packaged application
+        run: npm run verify:package -- release
+      - name: Smoke packaged PfsaaHost and bundled AgentCore SDK
+        run: npm run smoke:package -- release
+      - name: Generate packaged CycloneDX SBOM
+        run: npm run sbom:package -- release "${{ matrix.sbom_path }}"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: |
+            ${{ matrix.artifact_path }}
+            ${{ matrix.sbom_path }}
+          if-no-files-found: error
+          retention-days: 7
+
+  windows:
+    name: Package Windows x64
+    needs: verify
+    runs-on: windows-2025
+    environment: release-signing
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ needs.verify.outputs.release_sha }}
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Build application
+        run: npm run build
+      - name: Build installer
+        env:
+          CSC_LINK: ${{ secrets.WIN_CSC_LINK }}
+          CSC_KEY_PASSWORD: ${{ secrets.WIN_CSC_KEY_PASSWORD }}
+          PFSAA_FORCE_CODE_SIGNING: ${{ secrets.WIN_CSC_LINK != '' }}
+        run: .\node_modules\.bin\electron-builder.cmd --config electron-builder.config.cjs --win nsis --x64 --publish never
+      - name: Verify packaged application
+        run: npm run verify:package -- release/win-unpacked
+      - name: Smoke packaged PfsaaHost and bundled AgentCore SDK
+        run: npm run smoke:package -- release/win-unpacked
+      - name: Generate packaged CycloneDX SBOM
+        run: npm run sbom:package -- release/win-unpacked release/pfsaa-sbom-windows-x64.cdx.json
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: pfsaa-windows-x64
+          path: |
+            release/PFSAA-*-windows-x64-setup.exe
+            release/pfsaa-sbom-windows-x64.cdx.json
+          if-no-files-found: error
+          retention-days: 7
+
+  publish-draft:
+    name: Create draft release
+    needs: [verify, macos, windows]
+    runs-on: ubuntu-latest
+    permissions:
+      artifact-metadata: write
+      attestations: write
+      contents: write
+      id-token: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ needs.verify.outputs.release_sha }}
+          fetch-depth: 0
+      - name: Confirm release tag did not move
+        shell: bash
+        env:
+          EXPECTED_RELEASE_SHA: ${{ needs.verify.outputs.release_sha }}
+        run: |
+          git fetch --force origin "refs/tags/$RELEASE_TAG:refs/tags/$RELEASE_TAG"
+          current_sha="$(git rev-list -n 1 "refs/tags/$RELEASE_TAG")"
+          if [ "$current_sha" != "$EXPECTED_RELEASE_SHA" ]; then
+            echo "Release tag moved after source verification" >&2
+            exit 1
+          fi
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          pattern: pfsaa-*
+          path: artifacts
+          merge-multiple: true
+      - name: Generate SHA-256 checksums
+        working-directory: artifacts
+        run: sha256sum *.dmg *.exe *.json > SHA256SUMS.txt
+      - name: Attest release artifacts
+        if: github.event.repository.private == false
+        uses: actions/attest-build-provenance@96278af6caaf10aea03fd8d33a09a777ca52d62f # v3.2.0
+        with:
+          subject-path: |
+            artifacts/*.dmg
+            artifacts/*.exe
+            artifacts/*.json
+            artifacts/SHA256SUMS.txt
+      - name: Create or update draft release
+        run: |
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            if [ "$(gh release view "$RELEASE_TAG" --json isDraft --jq .isDraft)" != "true" ]; then
+              echo "Refusing to replace artifacts on published release $RELEASE_TAG" >&2
+              exit 1
+            fi
+            gh release upload "$RELEASE_TAG" artifacts/* --clobber
+          else
+            gh release create "$RELEASE_TAG" artifacts/* \
+              --draft \
+              --generate-notes \
+              --title "PFSAA $RELEASE_TAG"
+          fi

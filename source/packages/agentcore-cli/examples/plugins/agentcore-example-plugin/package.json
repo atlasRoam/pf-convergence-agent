@@ -1,0 +1,10 @@
+{
+	"name": "@pfsaa/agentcore-example-plugin",
+	"version": "1.0.0",
+	"private": true,
+	"type": "module",
+	"peerDependencies": {
+		"@pfsaa/chord": "1.0.0",
+		"@pfsaa/agentcore-cli": "1.0.0"
+	}
+}

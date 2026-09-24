@@ -1,0 +1,33 @@
+{
+  "navigation": [
+    {
+      "title": "入门",
+      "items": [
+        { "title": "概览", "path": "index.md" },
+        { "title": "快速开始", "path": "quickstart.md" },
+        { "title": "Windows", "path": "windows.md" },
+        { "title": "安全", "path": "security.md" }
+      ]
+    },
+    {
+      "title": "配置与会话",
+      "items": [
+        { "title": "配置", "path": "settings.md" },
+        { "title": "环境变量", "path": "environment-variables.md" },
+        { "title": "会话", "path": "sessions.md" },
+        { "title": "Provider", "path": "providers.md" },
+        { "title": "模型", "path": "models.md" }
+      ]
+    },
+    {
+      "title": "扩展与集成",
+      "items": [
+        { "title": "Skill", "path": "skills.md" },
+        { "title": "扩展", "path": "extensions.md" },
+        { "title": "RPC", "path": "rpc.md" },
+        { "title": "SDK", "path": "sdk.md" }
+      ]
+    }
+  ],
+  "redirects": []
+}

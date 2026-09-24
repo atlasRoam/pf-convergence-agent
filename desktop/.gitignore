@@ -1,0 +1,31 @@
+node_modules/
+dist/
+dist-renderer/
+release/
+output/
+.DS_Store
+apps/desktop/assets/pfsaa-miniwindow.node
+.codex/
+.idea/
+*.log
+
+# Local tooling
+.claude/
+.pi/
+.playwright-cli/
+.workbuddy/
+.agents/
+.husky/
+
+# Environment & credentials
+.env
+.env.*
+!.env.example
+*.local
+credentials*
+*.pem
+*.key
+*.p8
+*.p12
+*.pfx
+*.mobileprovision
