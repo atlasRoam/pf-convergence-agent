@@ -19,7 +19,7 @@ PFSAA does not provide:
 - A second agent, model catalog, credential store, or session database.
 - Node.js, filesystem, Shell, or AgentCore runtime access from the Renderer side.
 
-Provider API keys, OAuth, and other credentials remain stored by the AgentCore Runtime in the local AgentCore config directory. PFSAA may create and manage an OpenAI Chat Completions-compatible Provider with multiple model definitions in that same AgentCore `models.json`; its small `pfsaa-provider-ui.json` sidecar contains only custom-Provider ownership and authentication-page visibility state, never a credential or duplicate model catalog. Model discovery is an explicit user action that requests the user-configured `/models` endpoint through PfsaaHost; results are suggestions until selected and saved.
+Provider API keys, OAuth, and other credentials remain stored by the AgentCore Runtime in the local AgentCore config directory. PFSAA may create and edit OpenAI Chat Completions-compatible Providers with multiple model definitions in AgentCore's existing `models.json`, including pre-existing local entries; its small `pfsaa-provider-ui.json` sidecar contains only PFSAA-created deletion ownership and authentication-page visibility state, never a credential or duplicate model catalog. Model discovery is an explicit user action that requests the user-configured `/models` endpoint through PfsaaHost; results are suggestions until selected and saved.
 
 `SessionCapabilities.changeReviewEnabled` is the Host-provided gate for the
 per-run Git review surface. The fixed PFSAA runtime returns `false`, so the
@@ -93,7 +93,7 @@ PfsaaHost is responsible for:
 - Forwarding Agent events, Approval events, Auth events, and Extension UI requests. The orchestration entry remains in `index.ts`; process-local registries are isolated in `host-state.ts`, and AgentCore Agent event-to-bridge normalization is isolated in `agent-event-adapter.ts` so later domain splits can preserve the current IPC contract.
 - Owning AgentCore `AgentSessionRuntime` so Extension commands receive a TUI-capable mode, official command-context actions, Session replacement/rebinding, diagnostics, async errors, shutdown requests, and cancellable/timeout-bound Extension UI requests; components still render in PfsaaHost rather than entering the Renderer.
 - Executing AgentCore built-in tools, Bash, Provider login, AgentCore package management, permission-mode reads/writes, and session operations.
-- Editing the existing AgentCore `models.json` atomically for PFSAA-created OpenAI Chat Completions-compatible Providers, supporting multiple model definitions and preserving existing per-model settings when IDs remain selected. An explicit model-discovery action requests the configured OpenAI-compatible `/models` endpoint through PfsaaHost with a bounded response, timeout, and no redirect; returned IDs/names are only saved after selection. Manual model entry remains available. Configuration edits refresh the real `ModelRuntime` without catalog-network access, and submitted keys use AgentCore's existing login/credential path. It may truly remove only a PFSAA-owned definition; other runtime entries are hidden from the authentication page and remain restorable.
+- Editing the existing AgentCore `models.json` atomically for locally configured OpenAI Chat Completions-compatible Providers, including pre-existing entries, supporting multiple model definitions and preserving existing per-model settings when IDs remain selected. An explicit model-discovery action requests the configured OpenAI-compatible `/models` endpoint through PfsaaHost with a bounded response, timeout, and no redirect; returned IDs/names are only saved after selection. Manual model entry remains available. Configuration edits refresh the real `ModelRuntime` without catalog-network access, and submitted keys use AgentCore's existing login/credential path. It may truly remove only a PFSAA-owned definition; other runtime entries are hidden from the authentication page and remain restorable.
 - Reading AgentCore's effective keybindings and invoking AgentCore's configured external-editor helper for the Renderer input adaptation; the AgentCore settings surface reads the effective command/source and writes the user command through AgentCore's locked `FileSettingsStorage`. AgentCore splits editor commands on spaces before spawning, so on macOS/Linux PfsaaHost temporarily replaces quoted selected absolute paths with no-space symlink aliases, calls the same AgentCore helper, then removes the aliases. The Renderer never spawns editors or reads AgentCore config files directly.
 - Initializing AgentCore's own proxy-aware HTTP dispatcher before reporting `runtime.status=connected`, so OAuth token exchange, model requests, and Provider HTTP calls share the same PfsaaHost route. Package-manager subprocesses such as npm, pnpm, and git retain their own proxy configuration.
 - Converting cross-process data into JSON-serializable responses (`jsonSafe`) and keeping stable IDs plus queued image attachments in a PfsaaHost sidecar so queue thumbnails, `promoteQueue`, `editQueue`, and `deleteQueue` can rebuild AgentCore's queue without dropping attachments.
@@ -287,17 +287,21 @@ Every invoke handler validates that the caller is the active PFSAA window's main
 - `events.subscribe`
 
 `providers.list` reports a sanitized authentication source, stored-credential
-availability, and whether a definition is owned by PFSAA; only PFSAA-owned
-entries include editable base URL and model IDs/names. `providers.discoverModels`
+availability, deletion ownership, and whether an OpenAI-compatible local
+`models.json` entry is editable. Only editable entries include a base URL and
+model IDs/names, never credentials or other model metadata. `providers.discoverModels`
 performs an explicit, bounded GET to the user-configured OpenAI-compatible
 `/models` endpoint in PfsaaHost; it does not mutate configuration. `providers.create`
 adds one Provider with the selected static model definitions, while
-`providers.update` modifies only PFSAA-owned definitions and preserves existing
+`providers.update` modifies only editable local definitions and preserves existing
 per-model metadata for retained IDs. Both validate through the real
 `ModelRuntime` without model-catalog network refresh, and creation persists its
 key through AgentCore. `providers.remove`
 truly removes only a PFSAA-owned definition; it removes a stored credential
 before hiding an external/runtime definition from this authentication page.
+When a loaded Session has selected a Provider, `providers.update` may add models
+while keeping its service URL and selected model IDs. Changing that URL or
+removing a selected model still requires switching the affected Sessions first.
 `providers.listHidden` and `providers.restore` provide an explicit recovery
 path. Environment, model-file, and runtime-provided authentication remain
 managed by their external source. A failure stays inside its confirmation

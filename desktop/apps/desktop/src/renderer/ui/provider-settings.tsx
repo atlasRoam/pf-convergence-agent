@@ -56,6 +56,8 @@ function ProviderSettings({ language, focusProviderId, onClose, onModelsRefresh 
   const providerRemovalPromptRef = useRef<HTMLDivElement>(null);
   const providerCreatePromptRef = useRef<HTMLFormElement>(null);
   const providerAddButtonRef = useRef<HTMLButtonElement>(null);
+  const providerEditorTriggerRef = useRef<HTMLButtonElement>(null);
+  const restoreEditorFocusAfterSaveRef = useRef(false);
   const activeOAuthLoginIdsRef = useRef(new Set<string>());
   const t = copy[language];
   const authPromptVisible = Boolean(authPrompt && (authPrompt.type !== "manual_code" || manualAuthVisible));
@@ -75,8 +77,7 @@ function ProviderSettings({ language, focusProviderId, onClose, onModelsRefresh 
     setApiKeyValue("");
   }
 
-  function closeCreateProvider() {
-    if (creatingProvider || discoveringProviderModels || restoringProvider) return;
+  function resetProviderEditor() {
     setCreateProviderOpen(false);
     setEditingProvider(null);
     setProviderDraft(emptyProviderDraft);
@@ -86,6 +87,11 @@ function ProviderSettings({ language, focusProviderId, onClose, onModelsRefresh 
     setProviderModelCandidates([]);
     setSelectedCandidateIds([]);
     setHiddenProvidersError(null);
+  }
+
+  function closeCreateProvider() {
+    if (creatingProvider || discoveringProviderModels || restoringProvider) return;
+    resetProviderEditor();
   }
 
   function authErrorMessage(error: unknown): string {
@@ -160,10 +166,15 @@ function ProviderSettings({ language, focusProviderId, onClose, onModelsRefresh 
       setProviderRemovalError(null);
     }
   }, Boolean(pendingProviderRemoval));
-  useDialogFocus(providerCreatePromptRef, closeCreateProvider, createProviderOpen, providerAddButtonRef);
+  useDialogFocus(providerCreatePromptRef, closeCreateProvider, createProviderOpen, providerEditorTriggerRef);
+  useEffect(() => {
+    if (createProviderOpen || !restoreEditorFocusAfterSaveRef.current) return;
+    restoreEditorFocusAfterSaveRef.current = false;
+    if (providerEditorTriggerRef.current?.isConnected) providerEditorTriggerRef.current.focus();
+  }, [createProviderOpen]);
 
-  const loadProviders = useCallback(async () => {
-    setLoading(true);
+  const loadProviders = useCallback(async (showLoading = true) => {
+    if (showLoading) setLoading(true);
     setListError(null);
     try {
       const next = await window.pfsaa.providers.list();
@@ -172,7 +183,7 @@ function ProviderSettings({ language, focusProviderId, onClose, onModelsRefresh 
     } catch (error) {
       setListError(`${t.providerLoadFailed}: ${providerErrorMessage(error)}`);
     } finally {
-      setLoading(false);
+      if (showLoading) setLoading(false);
     }
   }, [providerErrorMessage, t.providerLoadFailed]);
 
@@ -309,6 +320,7 @@ function ProviderSettings({ language, focusProviderId, onClose, onModelsRefresh 
   }
 
   function openCreateProvider() {
+    providerEditorTriggerRef.current = providerAddButtonRef.current;
     setManagementNotice(null);
     setProviderCreateError(null);
     setProviderDraftErrors({});
@@ -321,8 +333,9 @@ function ProviderSettings({ language, focusProviderId, onClose, onModelsRefresh 
     void loadHiddenProviders();
   }
 
-  function openEditProvider(provider: ProviderSummary) {
-    if (!provider.isCustom) return;
+  function openEditProvider(provider: ProviderSummary, trigger: HTMLButtonElement) {
+    if (!provider.isEditable) return;
+    providerEditorTriggerRef.current = trigger;
     setManagementNotice(null);
     setProviderCreateError(null);
     setProviderDraftErrors({});
@@ -437,10 +450,11 @@ function ProviderSettings({ language, focusProviderId, onClose, onModelsRefresh 
           apiKey: providerDraft.apiKey.trim(),
         });
       }
-      await loadProviders();
+      await loadProviders(false);
       await onModelsRefresh(saved.id);
       setManagementNotice(editingProvider ? t.providerUpdated(saved.name) : t.providerAdded(saved.name));
-      closeCreateProvider();
+      restoreEditorFocusAfterSaveRef.current = true;
+      resetProviderEditor();
       setProviderQuery("");
       setProviderFilter("all");
     } catch (error) {
@@ -509,10 +523,10 @@ function ProviderSettings({ language, focusProviderId, onClose, onModelsRefresh 
           const authSource = providerAuthSourceLabel(provider.authSource);
           return <div className={`provider-card ${expanded ? "expanded" : ""} ${focusProviderId === provider.id ? "focused" : ""}`} data-provider-id={provider.id} key={provider.id}>
             <div className="provider-main">
-              <div className="provider-logo">{provider.name.slice(0, 1)}</div>
-              <div className="provider-copy"><div><strong>{provider.name}</strong><span className={`provider-state ${state}`}><span className="status-dot" />{state === "configured" ? t.configured : state === "expired" ? t.expired : t.missing}</span></div><small>{provider.id} · {t.providerModels(provider.modelCount)}{authSource ? ` · ${authSource}` : ""}</small></div>
+              {provider.isEditable ? <button type="button" className="provider-logo provider-edit-logo" disabled={isBusy} aria-label={`${t.editProviderTitle} ${provider.name}`} title={`${t.editProviderTitle} ${provider.name}`} onClick={(event) => openEditProvider(provider, event.currentTarget)}>{provider.name.slice(0, 1)}</button> : <div className="provider-logo">{provider.name.slice(0, 1)}</div>}
+              <div className="provider-copy"><div>{provider.isEditable ? <button type="button" className="provider-edit-name" disabled={isBusy} aria-label={`${t.editProviderTitle} ${provider.name}`} title={`${t.editProviderTitle} ${provider.name}`} onClick={(event) => openEditProvider(provider, event.currentTarget)}>{provider.name}</button> : <strong>{provider.name}</strong>}<span className={`provider-state ${state}`}><span className="status-dot" />{state === "configured" ? t.configured : state === "expired" ? t.expired : t.missing}</span></div><small>{provider.id} · {t.providerModels(provider.modelCount)}{authSource ? ` · ${authSource}` : ""}</small></div>
               <div className="provider-actions">
-                {provider.isCustom && <button type="button" className="button ghost" disabled={isBusy} onClick={() => openEditProvider(provider)}>{t.editProvider}</button>}
+                {provider.isEditable && <button type="button" className="button ghost" disabled={isBusy} onClick={(event) => openEditProvider(provider, event.currentTarget)}>{t.editProvider}</button>}
                 {provider.hasStoredCredential && <button className="button danger-subtle" disabled={isBusy} onClick={() => { setLogoutError(null); setPendingLogout(provider); }}>{t.removeProviderAuth}</button>}
                 {provider.authMethods.includes("oauth") && <button className="button primary" disabled={isBusy || oauthLocked} onClick={() => void auth(provider.id, "oauth")}>{busyProvider === provider.id ? t.authorizing : t.oauth}</button>}
                 {provider.authMethods.includes("api-key") && <button className="button ghost" aria-expanded={expanded} aria-controls={`api-key-${provider.id}`} disabled={isBusy} onClick={() => { if (expanded) closeApiKeyForm(); else { setApiKeyProvider(provider.id); setApiKeyValue(""); setAuthNotice(null); setAuthUrl(null); setManagementNotice(null); setFieldErrors((current) => ({ ...current, [provider.id]: undefined })); } }}>{t.apiKey}</button>}

@@ -35,7 +35,7 @@ PFSAA 不提供：
 - 第二套 Agent、模型目录、凭据存储或会话数据库。
 - Renderer 侧的 Node.js、文件系统、Shell 或 AgentCore runtime 访问。
 
-Provider API Key、OAuth 和其他凭据继续由 AgentCore Runtime 保存在本机 AgentCore 配置目录。PFSAA 可以在同一份 AgentCore `models.json` 中创建并管理包含多个模型定义的 OpenAI Chat Completions 兼容 Provider；配套的 `pfsaa-provider-ui.json` 只保存自定义服务商所有权和认证页可见性状态，绝不保存凭据，也不维护第二份模型目录。模型发现只在用户主动点击时由 PfsaaHost 请求用户填写的 `/models` 端点；结果仅作为候选项，勾选保存后才会写入配置。
+Provider API Key、OAuth 和其他凭据继续由 AgentCore Runtime 保存在本机 AgentCore 配置目录。PFSAA 可以在同一份 AgentCore `models.json` 中创建及编辑包含多个模型定义的 OpenAI Chat Completions 兼容 Provider，包括已有本地配置；配套的 `pfsaa-provider-ui.json` 只保存 PFSAA 自建服务商的删除所有权和认证页可见性状态，绝不保存凭据，也不维护第二份模型目录。模型发现只在用户主动点击时由 PfsaaHost 请求用户填写的 `/models` 端点；结果仅作为候选项，勾选保存后才会写入配置。
 
 `SessionCapabilities.changeReviewEnabled` 是 Host 提供的单轮 Git 审查能力开关。固定 PFSAA 运行时返回 `false`，因此 Renderer 不会请求审查数据，也不会渲染“审查不可用”的入口或抽屉。Provider 摘要只暴露脱敏后的生效认证来源以及是否存在本机凭据，不包含凭据或环境变量名。用户明确保存 API Key 时，类型化请求会将其传给 PfsaaHost 并立即经 AgentCore 持久化；PFSAA UI 状态文件不会保存密钥。
 
@@ -273,7 +273,7 @@ PFSAA 的 Renderer `activity/completedActivity` 仍是当前进程内的展示�
 每个 invoke handler 都会验证调用者是当前 PFSAA 窗口的主 frame。项目作用域调用只接受已记录在 Electron 项目注册表中的目录；新目录只能通过原生目录选择器加入注册表。会话导入也始终由 Electron 原生文件选择器取得 JSONL 路径，Renderer 不能提交任意文件系统路径。
 - `events.subscribe`
 
-`providers.list` 会报告脱敏后的认证来源、本机凭据可用性和定义是否归 PFSAA 所有；仅自建 Provider 会返回可编辑的地址及模型 ID/名称。`providers.discoverModels` 由 PfsaaHost 对用户指定的 OpenAI 兼容 `/models` 端点执行有超时、有响应体上限且禁止跳转的显式 GET，不会修改配置。`providers.create` 可写入多个已选模型；`providers.update` 只修改 PFSAA 所有的定义，并保留仍被选中模型的既有能力字段。新增和更新都会通过真实 `ModelRuntime` 做本地验证，不刷新远程模型目录；新 Provider 的 Key 仍经 AgentCore 凭据路径保存。`providers.remove` 只会真正删除 PFSAA 所有的定义；对于外部/运行时条目，它会先移除本机凭据（如有），再从此认证页隐藏。`providers.listHidden` 和 `providers.restore` 提供明确的恢复路径。环境变量、模型文件和运行时提供的认证仍由各自外部来源管理。失败会保留在确认对话框内，并可直接重试。
+`providers.list` 会报告脱敏后的认证来源、本机凭据可用性、删除所有权和本地 `models.json` 配置是否可编辑；只有可编辑的 OpenAI 兼容条目会返回地址及模型 ID/名称，不返回凭据或其他模型元数据。`providers.discoverModels` 由 PfsaaHost 对用户指定的 OpenAI 兼容 `/models` 端点执行有超时、有响应体上限且禁止跳转的显式 GET，不会修改配置。`providers.create` 可写入多个已选模型；`providers.update` 可修改满足条件的已有本地定义，并保留仍被选中模型的既有能力字段。新增和更新都会通过真实 `ModelRuntime` 做本地验证，不刷新远程模型目录；新 Provider 的 Key 仍经 AgentCore 凭据路径保存。已有 Session 选用该服务商时，可以保留服务地址和在用模型并增加模型；修改地址或移除在用模型，仍需先切换相关 Session。`providers.remove` 只会真正删除 PFSAA 所有的定义；对于其他条目，它会先移除本机凭据（如有），再从此认证页隐藏。`providers.listHidden` 和 `providers.restore` 提供明确的恢复路径。环境变量、模型文件和运行时提供的认证仍由各自外部来源管理。失败会保留在确认对话框内，并可直接重试。
 
 命名对应关系需要注意三处：
 

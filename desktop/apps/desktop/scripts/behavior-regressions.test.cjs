@@ -24,7 +24,7 @@ const { copySessionChangeReviewStore, deleteSessionChangeReviewStore, flushSessi
 const { sessionTranscriptMessages } = require("../../../packages/pfsaa-host/dist/session-transcript.js");
 const { createTrustAwareSettingsManager, readProjectTrustStatus } = require("../../../packages/pfsaa-host/dist/project-trust.js");
 const { buildSessionTreeSnapshot } = require("../../../packages/pfsaa-host/dist/session-tree.js");
-const { createCustomProvider, getProviderUiState, hideProvider, removeCustomProvider, restoreProvider, updateCustomProvider } = require("../../../packages/pfsaa-host/dist/provider-config-store.js");
+const { createCustomProvider, getProviderUiState, hideProvider, providerConfigurations, removeCustomProvider, restoreEditableProviderFields, restoreProvider, updateEditableProvider } = require("../../../packages/pfsaa-host/dist/provider-config-store.js");
 const { buildChangeFileTree, parseUnifiedPatch, reviewTreeKeyboardAction, sideBySideRows } = require("../dist/renderer/change-review-model.js");
 const { ComposerHistory } = require("../dist/renderer/composer-history.js");
 const { commandModel, exportArguments } = require("../dist/renderer/agentcore-command-arguments.js");
@@ -166,7 +166,8 @@ test("Provider config store preserves user configuration while managing PFSAA-ow
     fs.writeFileSync(path.join(agentDir, "models.json"), `{
   // Existing model configuration must survive PFSAA edits.
   "providers": {
-    "existing": { "name": "Existing", "baseUrl": "https://existing.example/v1", "api": "openai-completions", "models": [{ "id": "existing-model" }] }
+    "existing": { "name": "Existing", "baseUrl": "https://existing.example/v1", "api": "openai-completions", "apiKey": "fixture-only", "models": [{ "id": "existing-model", "contextWindow": 9000 }], "customFlag": true },
+    "unsupported": { "name": "Unsupported", "baseUrl": "https://other.example/v1", "api": "anthropic-messages", "models": [{ "id": "unsafe-model" }] }
   },
   "unknownSetting": true
 }\n`);
@@ -180,7 +181,27 @@ test("Provider config store preserves user configuration while managing PFSAA-ow
     assert.match(modelsText, /Existing model configuration/);
     assert.match(modelsText, /"unknownSetting": true/);
     assert.match(modelsText, /"pfsaa-private-gateway"/);
-    const previous = await updateCustomProvider(agentDir, providerId, {
+    const configurations = await providerConfigurations(agentDir);
+    assert.ok(configurations.ids.includes("existing"));
+    assert.deepEqual(configurations.editable.existing, { baseUrl: "https://existing.example/v1", models: [{ id: "existing-model", name: "existing-model" }] });
+    assert.doesNotMatch(JSON.stringify(configurations.editable), /fixture-only|contextWindow/);
+    assert.equal(configurations.editable.unsupported, undefined);
+    await assert.rejects(updateEditableProvider(agentDir, "unsupported", { name: "No", baseUrl: "https://other.example/v1", models: [{ id: "unsafe-model", name: "Unsafe" }] }), /Only locally configured/);
+    const legacyPrevious = await updateEditableProvider(agentDir, "existing", {
+      name: "Renamed existing",
+      baseUrl: "https://existing.example/v2",
+      models: [{ id: "existing-model", name: "Existing model" }, { id: "new-model", name: "New model" }],
+    });
+    let existing = parseJsonc(fs.readFileSync(path.join(agentDir, "models.json"), "utf8")).providers.existing;
+    assert.equal(existing.customFlag, true);
+    assert.equal(existing.models[0].contextWindow, 9000);
+    assert.equal(existing.models[1].id, "new-model");
+    await restoreEditableProviderFields(agentDir, "existing", legacyPrevious);
+    existing = parseJsonc(fs.readFileSync(path.join(agentDir, "models.json"), "utf8")).providers.existing;
+    assert.equal(existing.name, "Existing");
+    assert.deepEqual(existing.models, [{ id: "existing-model", contextWindow: 9000 }]);
+    await assert.rejects(removeCustomProvider(agentDir, "existing"), /Only Providers added from PFSAA/);
+    const previous = await updateEditableProvider(agentDir, providerId, {
       name: "Private model gateway",
       baseUrl: "https://models.example.test/v2",
       models: [{ id: "model-a", name: "Renamed Model A" }, { id: "model-c", name: "Model C" }],
@@ -1565,11 +1586,13 @@ test("package manifest validation rejects developer state and source trees", asy
     "/packages/pfsaa-host/dist/index.js",
     "/dist-renderer/index.html",
     "/LICENSE",
+    "/LICENSE.upstream-MIT",
+    "/NOTICE",
     "/THIRD_PARTY_NOTICES.txt",
     "/node_modules/react/index.js",
   ];
 
-  assert.deepEqual(validatePackagePaths(runtimePaths), { fileCount: 8, requiredCount: 7 });
+  assert.deepEqual(validatePackagePaths(runtimePaths), { fileCount: 10, requiredCount: 9 });
   assert.throws(() => validatePackagePaths([...runtimePaths, "/.codex/session.json"]), /Forbidden development files/);
   assert.throws(() => validatePackagePaths([...runtimePaths, "/apps/desktop/src/main/index.ts"]), /Forbidden development files/);
   assert.throws(() => validatePackagePaths([...runtimePaths, "/node_modules/@pfsaa/agentcore-adapter/src/index.ts"]), /Forbidden development files/);

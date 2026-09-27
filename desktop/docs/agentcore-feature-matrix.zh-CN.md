@@ -29,7 +29,7 @@
 | 会话命名 | 会话列表与对话标题 | 首条用户消息后：先用 `deriveSessionTitle` 生成去前缀短标题并经由 `sessions.rename`（对应 AgentCore `AgentSession.setSessionName()`）持久化作为重载安全的回退；随后异步调用新增的 `sessions.generateTitle` 桥（PfsaaHost 用 `ModelRuntime.complete` 对首条消息做 3–8 词摘要），成功后将标题升级为 LLM 摘要并再次 `sessions.rename` 持久化。仅当标题仍是截断/占位名时才升级，手动改名不被覆盖；LLM 失败回退到截断标题 |
 | 会话删除 | 会话更多菜单 | `sessions.delete(taskId, cwd)`；PfsaaHost 以规范化项目路径 + 会话 ID 标识运行时状态，不会影响其它项目导入的同 ID 会话 |
 | 会话位置与长会话 | 中央对话线程（普通文档流 + 早期消息折叠） | 不使用虚拟列表；只挂载最近 200 条，更早消息折叠在"显示更早消息"按钮后。防跳动依赖 `overflow-anchor: auto` 原生 scroll anchoring；非活动 pane 用 `visibility: hidden` 天然保留 `scrollTop` 并暂停 DOM observer；follow 仅由真实 wheel/touch 上滑事件退出，程序化滚动期间 latch 住 |
-| Provider 列表 | 快捷设置 → Provider 设置（搜索、认证状态筛选、新增、管理/编辑、移除） | `ModelRuntime.getProviders()` 和 `listCredentials()` 仍是唯一权威来源。PFSAA 仅在无凭据的 `runtime/.agent/pfsaa-provider-ui.json` 中记录自己创建的 Provider ID 与被隐藏的运行时条目；DTO 只携带脱敏后的生效认证来源、本机已存凭据标记和 PFSAA 自定义 Provider 所有权标记 |
+| Provider 列表 | 快捷设置 → Provider 设置（搜索、认证状态筛选、新增、管理/编辑、移除） | `ModelRuntime.getProviders()` 和 `listCredentials()` 仍是唯一权威来源。PFSAA 仅在无凭据的 `runtime/.agent/pfsaa-provider-ui.json` 中记录自建条目的删除所有权与隐藏状态；独立的 `isEditable` 从本地 `models.json` 中 OpenAI Chat Completions 兼容的配置推导，已有服务商也可点名称编辑、刷新候选并保存。DTO 只对可编辑条目传地址和模型 ID/名称，不传凭据及其他模型元数据；只有 PFSAA 自建条目可以真正删除，其余可隐藏并恢复。 |
 | API Key / OAuth | Provider 设置（本机凭据、移除确认） | `ModelRuntime.login()`、`ModelRuntime.logout()`、AgentCore auth 回调。PFSAA 自建 Provider 可在 AgentCore 的 `runtime/.agent/models.json` 中管理多个 OpenAI Chat Completions 兼容模型，支持手动录入模型 ID，或由用户主动请求配置地址的 `/models` 端点并勾选候选项后保存；候选列表不会自动写入，也不维护第二套模型目录。创建和编辑都通过 `ModelRuntime.refresh({ allowNetwork: false })` 做本地验证，API Key 经 AgentCore 凭据路径保存。只有由 PFSAA 创建的 Provider 能连同本机凭据一起真正移除；内置、Extension 或外部配置的 Provider 只会从此设置页隐藏，并可恢复显示，不会伪装成已从 AgentCore 删除。失败会保留在确认对话框内并可直接重试。关闭设置会通过 `AuthInteraction.signal` 中止未完成的登录，新尝试会先替换同一 Provider 的遗留认证再重新打开浏览器；OpenAI Codex 浏览器登录会预检 AgentCore 0.84.2–0.85.1 的固定回调端口，手动输入回调地址仅作为显式兜底，成功后自动聚焦桌面窗口；PfsaaHost 在 Token 交换前按“显式环境变量 → AgentCore `httpProxy` → Electron 系统代理”的优先级初始化 AgentCore 的代理感知 HTTP dispatcher |
 | 模型列表 | Composer 模型选择器 | `ModelRuntime.getModels()` |
 | 思考等级 | Composer Thinking 菜单；`/thinking [level]`；`/settings` | `AgentSession.getAvailableThinkingLevels()` / `setThinkingLevel(..., { persist: true })`；模型选择同样使用 `setModel(..., { persist: true })`；Composer 与 AgentCore 设置中的思考选项均从 AgentCore 模型能力派生，全局及按模型启动默认值（`modelThinkingLevels`）均读写同一份 AgentCore 用户级 SettingsManager |
@@ -56,6 +56,8 @@
 | 重试与摘要状态 | 运行中指示器 | AgentCore `auto_retry_*` 与 `summarization_retry_*` 事件显示尝试次数、最大次数、等待时间、摘要阶段、完成状态和最终可操作错误 |
 | Composer 与会话输入 | Composer、当前会话搜索栏；AgentCore 设置 → 外部编辑器 | 支持用户提示历史、Tab/Enter 资源补全、AgentCore 外部编辑器、图片粘贴/拖放、包含折叠历史的会话匹配导航，并把 AgentCore 生效的 `keybindings.json` 适配到搜索、模型、thinking 和外部编辑器动作。AgentCore 设置页区分自动与自定义模式，显示当前命令来自项目设置、用户设置、`VISUAL`、`EDITOR` 还是 AgentCore 平台默认值，并可通过 Windows/macOS 原生应用选择器填充自定义命令。命令仍通过 AgentCore 自带的锁定 `FileSettingsStorage` 持久化，清空后恢复自动优先级；Unix 上带引号的已选路径在调用 AgentCore helper 前使用一次性无空格别名，因此无需第二套编辑器配置存储即可支持带空格路径 |
 | Print/JSON/RPC/stdin/Auth Print | `npm run cli -- <AgentCore 参数>` 或 `pfsaa-cli`（`pfsaa-cli` 仅为兼容别名） | 透明委托给 AgentCore 官方 `main()`，复用其参数解析、stdin/stdout JSONL、Print/JSON/RPC、Session 与 `auth print-*` 语义，不实现第二套 Agent 或协议 |
+
+已加载的 Session 使用某服务商时，仍可在其编辑页增加模型；修改服务地址或移除该 Session 选中的模型，须先切换相关 Session。
 
 ## Slash 命令状态
 

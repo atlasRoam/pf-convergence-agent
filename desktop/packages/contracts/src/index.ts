@@ -45,7 +45,9 @@ export interface ProviderSummary {
   modelCount: number;
   /** Only Providers created from this desktop own a removable models.json entry. */
   isCustom: boolean;
-  /** Editable configuration is exposed only for Providers owned by PFSAA. */
+  /** Locally configured, OpenAI-compatible models.json entry; independent of deletion ownership. */
+  isEditable: boolean;
+  /** Present only for editable Providers; never includes credentials or model secrets. */
   baseUrl?: string;
   models?: ProviderModelDefinition[];
 }

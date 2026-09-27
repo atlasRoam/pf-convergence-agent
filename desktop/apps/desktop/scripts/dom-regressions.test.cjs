@@ -1,4 +1,6 @@
 const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
 const test = require("node:test");
 const React = require("react");
 const { Window } = require("happy-dom");
@@ -170,7 +172,7 @@ test("Provider settings expose add and remove controls", async () => {
   const { ProviderSettings } = require("../dist/renderer/ui/provider-settings.js");
   const provider = {
     id: "built-in-provider", name: "Built-in Provider", authState: "missing", authSource: "none",
-    hasStoredCredential: false, authMethods: ["api-key"], modelCount: 1, isCustom: false,
+    hasStoredCredential: false, authMethods: ["api-key"], modelCount: 1, isCustom: false, isEditable: false,
   };
   dom.window.pfsaa = {
     events: { subscribe: () => () => undefined },
@@ -195,8 +197,17 @@ test("Provider settings expose add and remove controls", async () => {
   const add = dom.document.querySelector(".provider-add-button");
   assert.equal(add.textContent, "Add provider");
   assert.ok(dom.document.querySelector('[aria-label="Remove provider"]'));
+  assert.equal(dom.document.querySelector(".provider-edit-logo"), null);
+  assert.equal(dom.document.querySelector(".provider-edit-name"), null);
+  assert.equal(dom.document.querySelector(".provider-card .provider-logo").tagName, "DIV");
+  assert.equal(dom.document.querySelector(".provider-card .provider-copy strong").textContent, provider.name);
   await act(async () => root.unmount());
   dom.close();
+});
+
+test("Provider form uses the same control font size for model ID and provider fields", () => {
+  const css = fs.readFileSync(path.join(__dirname, "../src/renderer/styles.css"), "utf8");
+  assert.match(css, /\.provider-create-prompt > label input, \.provider-model-entry input \{ font-size: var\(--font-size-label\); \}/);
 });
 
 test("custom Provider management discovers, selects, and saves multiple models", async () => {
@@ -206,22 +217,23 @@ test("custom Provider management discovers, selects, and saves multiple models",
   const { ProviderSettings } = require("../dist/renderer/ui/provider-settings.js");
   const provider = {
     id: "pfsaa-custom-gateway", name: "Custom gateway", authState: "configured", authSource: "stored",
-    hasStoredCredential: true, authMethods: ["api-key"], modelCount: 1, isCustom: true,
+    hasStoredCredential: true, authMethods: ["api-key"], modelCount: 1, isCustom: true, isEditable: true,
     baseUrl: "https://models.example.test/v1", models: [{ id: "old-model", name: "Old model" }],
   };
+  let currentProvider = provider;
   let savedInput;
   let discoveryInput;
   dom.window.pfsaa = {
     events: { subscribe: () => () => undefined },
     providers: {
-      list: async () => [provider],
+      list: async () => [currentProvider],
       listHidden: async () => [],
       discoverModels: async (input) => {
         discoveryInput = input;
         return [{ id: "old-model", name: "Old model" }, { id: "discovered-a", name: "Discovered A" }, { id: "discovered-b", name: "Discovered B" }];
       },
       create: async () => provider,
-      update: async (input) => { savedInput = input; return { ...provider, name: input.name, models: input.models, modelCount: input.models.length }; },
+      update: async (input) => { savedInput = input; currentProvider = { ...currentProvider, name: input.name, models: input.models, modelCount: input.models.length }; return currentProvider; },
       remove: async () => ({ providerId: provider.id, action: "removed" }),
       restore: async () => undefined,
       logout: async () => undefined,
@@ -238,7 +250,21 @@ test("custom Provider management discovers, selects, and saves multiple models",
   })); await flushReact(); await flushReact(); });
   const edit = [...dom.document.querySelectorAll(".provider-card button")].find((button) => button.textContent === "Edit");
   assert.ok(edit);
-  await act(async () => { edit.click(); await flushReact(); });
+  const logo = dom.document.querySelector(".provider-edit-logo");
+  const name = dom.document.querySelector(".provider-edit-name");
+  assert.equal(logo.tagName, "BUTTON");
+  assert.equal(name.tagName, "BUTTON");
+  assert.equal(logo.getAttribute("aria-label"), "Edit provider Custom gateway");
+  await act(async () => { logo.focus(); logo.click(); await flushReact(); });
+  assert.equal(dom.document.querySelector(".provider-model-row small").textContent, "old-model");
+  assert.equal(dom.document.querySelector("#provider-create-api-key").value, "");
+  await act(async () => { dom.document.querySelector(".provider-editor-actions button[type=button]").click(); await flushReact(); });
+  assert.equal(dom.document.activeElement === logo, true, "closing from the logo restores its focus");
+  await act(async () => { name.focus(); name.click(); await flushReact(); });
+  assert.ok(dom.document.querySelector(".provider-create-prompt"));
+  await act(async () => { dom.document.querySelector(".provider-editor-actions button[type=button]").click(); await flushReact(); });
+  assert.equal(dom.document.activeElement === name, true, "closing from the name restores its focus");
+  await act(async () => { edit.focus(); edit.click(); await flushReact(); });
   const refresh = dom.document.querySelector(".provider-create-prompt .provider-model-editor-heading button");
   assert.equal(refresh.textContent, "Refresh model list");
   assert.equal(refresh.disabled, false);
@@ -263,6 +289,59 @@ test("custom Provider management discovers, selects, and saves multiple models",
   await act(async () => { dom.document.querySelector(".provider-editor-actions button[type=submit]").click(); await flushReact(); await flushReact(); });
   assert.equal(savedInput.providerId, provider.id);
   assert.deepEqual(savedInput.models.map((model) => model.id), ["old-model", "discovered-a", "manual-model"]);
+  assert.equal(dom.document.querySelector(".provider-create-prompt"), null, "saving closes the editor");
+  assert.equal(dom.document.activeElement === edit, true, "saving from Edit restores its focus");
+  await act(async () => { name.focus(); name.click(); await flushReact(); });
+  assert.deepEqual([...dom.document.querySelectorAll(".provider-model-row small")].map((row) => row.textContent), ["old-model", "discovered-a", "manual-model"]);
+  await act(async () => { dom.document.querySelector(".provider-editor-actions button[type=button]").click(); await flushReact(); });
+  await act(async () => root.unmount());
+  dom.close();
+});
+
+test("existing models.json Provider edits through its name without acquiring deletion ownership", async () => {
+  const dom = installDom();
+  const { createRoot } = require("react-dom/client");
+  const { act } = React;
+  const { ProviderSettings } = require("../dist/renderer/ui/provider-settings.js");
+  let current = {
+    id: "local-gateway-a", name: "Local gateway A", authState: "configured", authSource: "models-json",
+    hasStoredCredential: false, authMethods: ["api-key"], modelCount: 1,
+    isCustom: false, isEditable: true, baseUrl: "https://local.example/v1", models: [{ id: "old-model", name: "Old model" }],
+  };
+  const second = { ...current, id: "local-gateway-b", name: "Local gateway B" };
+  let saved;
+  let probed;
+  dom.window.pfsaa = {
+    events: { subscribe: () => () => undefined },
+    providers: {
+      list: async () => [current, second], listHidden: async () => [],
+      discoverModels: async (input) => { probed = input; return [{ id: "new-model", name: "New model" }]; },
+      update: async (input) => { saved = input; current = { ...current, models: input.models, modelCount: input.models.length }; return current; },
+      remove: async () => ({ providerId: current.id, action: "hidden" }),
+    },
+  };
+  const root = createRoot(dom.document.body);
+  await act(async () => { root.render(React.createElement(ProviderSettings, {
+    language: "en", focusProviderId: null, onClose() {}, onModelsRefresh: async () => undefined,
+  })); await flushReact(); await flushReact(); });
+  const name = dom.document.querySelector(".provider-edit-name");
+  assert.equal(name.textContent, "Local gateway A");
+  await act(async () => { name.click(); await flushReact(); });
+  const refresh = dom.document.querySelector(".provider-model-editor-heading button");
+  await act(async () => { refresh.click(); await flushReact(); });
+  assert.equal(probed.providerId, "local-gateway-a");
+  await act(async () => { dom.document.querySelector(".provider-model-candidate input").click(); await flushReact(); });
+  await act(async () => { dom.document.querySelector(".provider-discovery-results > button").click(); await flushReact(); });
+  await act(async () => { dom.document.querySelector(".provider-editor-actions button[type=submit]").click(); await flushReact(); await flushReact(); });
+  assert.deepEqual(saved.models.map((model) => model.id), ["old-model", "new-model"]);
+  assert.equal(dom.document.querySelector(".provider-create-prompt"), null);
+  assert.equal(dom.document.querySelector(".provider-edit-name")?.textContent, "Local gateway A");
+  assert.equal(current.isCustom, false);
+  const secondName = dom.document.querySelector('[data-provider-id="local-gateway-b"] .provider-edit-name');
+  assert.equal(secondName?.textContent, "Local gateway B");
+  await act(async () => { secondName.click(); await flushReact(); });
+  assert.equal(dom.document.querySelector("#provider-create-title")?.textContent, "Edit provider");
+  await act(async () => { dom.document.querySelector(".provider-editor-actions button[type=button]").click(); await flushReact(); });
   await act(async () => root.unmount());
   dom.close();
 });

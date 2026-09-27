@@ -28,6 +28,11 @@ export interface CustomProviderPreviousConfig {
   models: unknown;
 }
 
+export interface EditableProviderConfiguration {
+  baseUrl: string;
+  models: readonly CustomProviderModel[];
+}
+
 export function normalizedProviderBaseUrl(value: string): string {
   let url: URL;
   try {
@@ -202,6 +207,21 @@ function normalizedInput(input: CustomProviderInput): CustomProviderInput {
   return { name, baseUrl: normalizedProviderBaseUrl(input.baseUrl), models };
 }
 
+function editableConfiguration(value: unknown): EditableProviderConfiguration | undefined {
+  if (!isRecord(value) || value.api !== "openai-completions" || typeof value.baseUrl !== "string" || !Array.isArray(value.models)) return undefined;
+  if (!value.models.every((model) => isRecord(model) && typeof model.id === "string" && (model.name === undefined || typeof model.name === "string"))) return undefined;
+  try {
+    const normalized = normalizedInput({
+      name: "Provider",
+      baseUrl: value.baseUrl,
+      models: value.models.map((model: JsonRecord) => ({ id: model.id as string, name: typeof model.name === "string" ? model.name : model.id as string })),
+    });
+    return { baseUrl: normalized.baseUrl, models: normalized.models };
+  } catch {
+    return undefined;
+  }
+}
+
 function providerIdFromName(name: string, occupiedIds: Iterable<string>): string {
   const occupied = new Set([...occupiedIds].map((id) => id.toLocaleLowerCase()));
   const slug = name
@@ -253,13 +273,12 @@ export async function createCustomProvider(agentDir: string, input: CustomProvid
   });
 }
 
-export async function updateCustomProvider(agentDir: string, providerId: string, input: CustomProviderInput): Promise<CustomProviderPreviousConfig> {
+export async function updateEditableProvider(agentDir: string, providerId: string, input: CustomProviderInput): Promise<CustomProviderPreviousConfig> {
   return serializeMutation(async () => {
     if (!isValidProviderId(providerId)) throw new Error("Invalid Provider ID.");
-    const { models, state } = await openDocuments(agentDir);
-    if (!state.customProviderIds.includes(providerId)) throw new Error("Only Providers added from PFSAA can be edited.");
+    const { models } = await openDocuments(agentDir);
     const existing = providersFromModels(models)[providerId];
-    if (!isRecord(existing)) throw new Error("Provider configuration is missing or invalid.");
+    if (!editableConfiguration(existing) || !isRecord(existing)) throw new Error("Only locally configured OpenAI-compatible Providers can be edited.");
     const normalized = normalizedInput(input);
     const existingModels = Array.isArray(existing.models) ? existing.models : [];
     const existingModelsById = new Map(existingModels.filter(isRecord).filter((model) => typeof model.id === "string").map((model) => [model.id as string, model]));
@@ -280,12 +299,11 @@ export async function updateCustomProvider(agentDir: string, providerId: string,
   });
 }
 
-export async function restoreCustomProviderFields(agentDir: string, providerId: string, previous: CustomProviderPreviousConfig): Promise<void> {
+export async function restoreEditableProviderFields(agentDir: string, providerId: string, previous: CustomProviderPreviousConfig): Promise<void> {
   return serializeMutation(async () => {
     if (!isValidProviderId(providerId)) throw new Error("Invalid Provider ID.");
-    const { models, state } = await openDocuments(agentDir);
-    if (!state.customProviderIds.includes(providerId)) throw new Error("Only Providers added from PFSAA can be edited.");
-    if (!isRecord(providersFromModels(models)[providerId])) throw new Error("Provider configuration is missing or invalid.");
+    const { models } = await openDocuments(agentDir);
+    if (!editableConfiguration(providersFromModels(models)[providerId])) throw new Error("Provider configuration is missing or not editable.");
     updateDocument(models, ["providers", providerId, "name"], previous.name);
     updateDocument(models, ["providers", providerId, "baseUrl"], previous.baseUrl);
     updateDocument(models, ["providers", providerId, "models"], previous.models);
@@ -332,9 +350,15 @@ export async function restoreProvider(agentDir: string, providerId: string): Pro
   });
 }
 
-export function providerConfigurationIds(agentDir: string): Promise<readonly string[]> {
+export function providerConfigurations(agentDir: string): Promise<{ ids: readonly string[]; editable: Readonly<Record<string, EditableProviderConfiguration>> }> {
   return serializeMutation(async () => {
     const { models } = await openDocuments(agentDir);
-    return Object.keys(providersFromModels(models));
+    const providers = providersFromModels(models);
+    const editable: Record<string, EditableProviderConfiguration> = {};
+    for (const [providerId, value] of Object.entries(providers)) {
+      const configuration = editableConfiguration(value);
+      if (configuration) editable[providerId] = configuration;
+    }
+    return { ids: Object.keys(providers), editable };
   });
 }

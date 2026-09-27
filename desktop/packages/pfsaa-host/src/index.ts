@@ -73,7 +73,7 @@ import { sessionTranscriptMessages } from "./session-transcript.js";
 import { canonicalProjectPath, createTrustAwareSettingsManager, readProjectTrustStatus } from "./project-trust.js";
 import { buildSessionTreeSnapshot } from "./session-tree.js";
 import { assertPfsaaCwd, pfsaaResourceOptions, pfsaaRuntime } from "./pfsaa-runtime.js";
-import { createCustomProvider, getProviderUiState, hideProvider, normalizedProviderBaseUrl, providerConfigurationIds, removeCustomProvider, restoreCustomProviderFields, restoreProvider, updateCustomProvider } from "./provider-config-store.js";
+import { createCustomProvider, getProviderUiState, hideProvider, normalizedProviderBaseUrl, providerConfigurations, removeCustomProvider, restoreEditableProviderFields, restoreProvider, updateEditableProvider } from "./provider-config-store.js";
 
 const pfsaa = pfsaaRuntime();
 
@@ -100,16 +100,17 @@ type ProviderListVisibility = "visible" | "hidden";
 
 async function listProviderSummaries(runtime: any, visibility: ProviderListVisibility): Promise<ProviderSummary[]> {
   const agentDir = providerConfigAgentDir();
-  const [{ customProviderIds, hiddenProviders }, configurationIds, credentials] = await Promise.all([
+  const [{ customProviderIds, hiddenProviders }, configurations, credentials] = await Promise.all([
     getProviderUiState(agentDir),
-    providerConfigurationIds(agentDir),
+    providerConfigurations(agentDir),
     runtime.listCredentials(),
   ]);
-  const configuredProviderIds = new Set(configurationIds);
+  const configuredProviderIds = new Set(configurations.ids);
   const customProviderIdSet = new Set(customProviderIds.filter((providerId) => configuredProviderIds.has(providerId)));
   const credentialByProvider = new Map<string, any>(credentials.map((credential: any) => [credential.providerId, credential] as [string, any]));
   const providersById = new Map<string, any>(runtime.getProviders().map((provider: any) => [provider.id, provider]));
   const summaries = [...providersById.values()].map((provider): ProviderSummary => {
+    const editable = configurations.editable[provider.id];
     const auth = runtime.getProviderAuthStatus(provider.id);
     const credential = credentialByProvider.get(provider.id);
     const hasStoredCredential = Boolean(credential);
@@ -127,9 +128,10 @@ async function listProviderSummaries(runtime: any, visibility: ProviderListVisib
       authMethods,
       modelCount: runtime.getModels(provider.id).length,
       isCustom: customProviderIdSet.has(provider.id),
-      ...(customProviderIdSet.has(provider.id) ? {
-        baseUrl: provider.baseUrl ?? "",
-        models: runtime.getModels(provider.id).map((model: any) => ({ id: model.id, name: model.name ?? model.id })),
+      isEditable: Boolean(editable),
+      ...(editable ? {
+        baseUrl: editable.baseUrl,
+        models: editable.models.map((model) => ({ ...model })),
       } : {}),
     };
   });
@@ -148,6 +150,7 @@ async function listProviderSummaries(runtime: any, visibility: ProviderListVisib
       authMethods: [],
       modelCount: 0,
       isCustom: false,
+      isEditable: false,
     });
   }
   return matching;
@@ -156,6 +159,19 @@ async function listProviderSummaries(runtime: any, visibility: ProviderListVisib
 function assertCustomProviderIsNotInUse(providerId: string): void {
   if (activeProviderLoginByProvider.has(providerId)) throw new Error("PFSAA_PROVIDER_AUTH_IN_PROGRESS");
   if ([...agentSessions.values()].some((session) => session.model?.provider === providerId)) {
+    throw new Error("PFSAA_PROVIDER_IN_USE");
+  }
+}
+
+function assertEditableProviderUpdateIsSafe(provider: ProviderSummary, baseUrl: string, models: readonly { id: string }[]): void {
+  if (activeProviderLoginByProvider.has(provider.id)) throw new Error("PFSAA_PROVIDER_AUTH_IN_PROGRESS");
+  const selectedModelIds = [...agentSessions.values()]
+    .map((session) => session.model)
+    .filter((model) => model?.provider === provider.id)
+    .map((model) => model.id);
+  if (selectedModelIds.length === 0) return;
+  const nextModelIds = new Set(models.map((model) => model.id.trim()));
+  if (normalizedProviderBaseUrl(baseUrl) !== provider.baseUrl || selectedModelIds.some((id) => !nextModelIds.has(id))) {
     throw new Error("PFSAA_PROVIDER_IN_USE");
   }
 }
@@ -2998,8 +3014,8 @@ async function handle(request: PfsaaHostRequest): Promise<void> {
         let apiKey = payload.apiKey?.trim() || undefined;
         let configuredHeaders: unknown;
         if (payload.providerId) {
-          const state = await getProviderUiState(providerConfigAgentDir());
-          if (!state.customProviderIds.includes(payload.providerId)) throw new Error("Only PFSAA-created Providers can be probed from this form.");
+          const provider = (await listProviderSummaries(runtime, "visible")).find((entry) => entry.id === payload.providerId);
+          if (!provider?.isEditable) throw new Error("Only locally configured OpenAI-compatible Providers can be probed from this form.");
           const model = runtime.getModels(payload.providerId)[0];
           const auth = await runtime.getAuth(model ?? payload.providerId);
           apiKey ??= auth?.auth?.apiKey;
@@ -3050,10 +3066,10 @@ async function handle(request: PfsaaHostRequest): Promise<void> {
         if (!payload?.providerId || !payload.name || !payload.baseUrl || !payload.models?.length) throw new Error("providerId, name, baseUrl and models are required");
         const runtime = await getModelRuntime();
         const provider = (await listProviderSummaries(runtime, "visible")).find((entry) => entry.id === payload.providerId);
-        if (!provider?.isCustom) throw new Error("Only PFSAA-created Providers can be edited.");
-        assertCustomProviderIsNotInUse(provider.id);
+        if (!provider?.isEditable) throw new Error("Only locally configured OpenAI-compatible Providers can be edited.");
+        assertEditableProviderUpdateIsSafe(provider, payload.baseUrl, payload.models);
         const agentDir = providerConfigAgentDir();
-        const previous = await updateCustomProvider(agentDir, provider.id, {
+        const previous = await updateEditableProvider(agentDir, provider.id, {
           name: payload.name,
           baseUrl: payload.baseUrl,
           models: payload.models,
@@ -3066,7 +3082,7 @@ async function handle(request: PfsaaHostRequest): Promise<void> {
             throw new Error("PFSAA_PROVIDER_CONFIGURATION_INVALID");
           }
         } catch (error) {
-          await restoreCustomProviderFields(agentDir, provider.id, previous);
+          await restoreEditableProviderFields(agentDir, provider.id, previous);
           await runtime.refresh({ providers: [provider.id], allowNetwork: false }).catch(() => undefined);
           throw error;
         }

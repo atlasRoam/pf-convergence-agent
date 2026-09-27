@@ -25,6 +25,10 @@ Provider API Key、OAuth、Token 刷新和 Session 文件仍由 AgentCore Runtim
 
 AgentCore runtime 基线为 `@earendil-works/pi-coding-agent@0.85.1`。PFSAA 不显式传入 `createAgentSession.tools`，由 AgentCore 应用项目/全局 `defaultTools` 设置（包括配置后可用的 Windows `powershell` 工具），同时保留 Extension 与自定义工具；模型摘要会过滤 AgentCore 通过 `null` 明确标记为不支持的思考等级，活动 Session 仍以 `AgentSession.getAvailableThinkingLevels()` 的权威结果为准。PFSAA 调用 `setModel()` / `setThinkingLevel()` 时传入 `{ persist: true }`，因此模型和思考等级变更会写入 AgentCore 的用户级设置；`/thinking [level]` 映射到桌面思考等级选择器，`/settings` 编辑同一份 SettingsManager 默认值。AgentCore 的 `ui_prompt_start` / `ui_prompt_end` 会在 PfsaaHost 边界归一化为可序列化 Agent 事件；桌面更丰富的队列编辑仍使用直接 AgentSession 队列 API，SDK 的 RPC `clear_queue` 不属于当前直连 Host 传输。AgentCore 0.85.1 的 GPT-6 Astra 目录由 `ModelRuntime` 动态读取，其 fork 压缩边界、分支摘要、会话导入、代理、Qwen 目录及 OpenAI Codex SSE 修复会直接进入现有桌面映射。PFSAA 自建 Provider 可在 AgentCore 既有的 `runtime/.agent/models.json` 中配置多个 OpenAI Chat Completions 兼容模型，支持手动录入模型 ID，或在用户主动请求后读取配置服务地址的 `/models` 候选列表并由用户勾选保存；创建和编辑均通过 `ModelRuntime` 本地验证，API Key 只提交到 PfsaaHost 并由 AgentCore 凭据存储持久化。PFSAA 只在无凭据的 `runtime/.agent/pfsaa-provider-ui.json` 中记录自己创建的服务商所有权和认证页隐藏项，不维护第二套 Provider/模型目录。
 
+同一份本地 `models.json` 中已有的 OpenAI Chat Completions 兼容条目也可编辑及刷新；编辑资格与 PFSAA 自建条目的删除所有权分开判断。没有受支持本地配置的 Provider 仍由其原始运行时或 Extension 管理。
+
+已加载的 Session 正在使用服务商时，仍可为其增加模型；修改服务地址或移除在用模型，须等相关 Session 切换模型后进行。
+
 项目 AgentCore 资源遵循 AgentCore 的授权模型，不把“已打开项目”等同于自动允许加载。当项目存在受保护的设置、Extension、Skill、Prompt、主题、包、系统提示或项目 `.agents/skills` 时，PFSAA 会显示项目保存、父目录继承或全局默认的最终决定，并将其传给 `SettingsManager.create(..., { projectTrusted })`。在全局策略为 `ask` 且新增项目尚无决定时打开询问界面；同一项目级入口保留在项目右键菜单中。
 
 当前可运行结构：
